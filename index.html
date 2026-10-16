@@ -160,7 +160,43 @@ table{border-collapse:collapse;width:100%}
 .tchip.struct{border:2px solid var(--accent)}
 .tchip.site{border-style:dashed}
 .tchip.exam{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.rowname{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--cc,var(--fg));white-space:nowrap}
+.rowname{font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--cc,var(--fg));white-space:nowrap}
+/* schedule list (grouped) */
+.lhd{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px}
+.lsw{display:inline-flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:3px}
+.lsw button{border:0;background:transparent;border-radius:6px;padding:4px 12px;font-size:13px;font-weight:500;color:var(--muted)}
+.lsw button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.glist{columns:2;column-gap:12px}
+.grp{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--cc,var(--line));border-radius:0 0 10px 10px;min-width:0;break-inside:avoid;margin-bottom:12px;display:inline-block;width:100%}
+.grp-hd{display:flex;align-items:baseline;gap:8px;padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.grp-hd b{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--cc,var(--fg))}
+.grp-hd span{font-size:12px;color:var(--muted)}
+.grp-hd em{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.grp-hd i{display:inline-block;width:18px;height:10px;border-radius:3px;vertical-align:0;margin-right:2px}
+.grp-hd i.d{width:9px;height:9px;transform:rotate(45deg);border-radius:0}
+.grp ul{list-style:none;margin:0;padding:0}
+.gi{display:grid;grid-template-columns:92px minmax(0,1fr);gap:2px 12px;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.grp li:last-child .gi{border-bottom:0}
+.gi:hover{background:var(--panel-2)}
+.gi .gd{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.5;white-space:nowrap}
+.gi .gd em{display:block;font-style:normal;font-size:11px;color:var(--faint)}
+.gi .gt{min-width:0;display:flex;flex-direction:column;gap:3px}
+.gi .gt b{font-size:13.5px;font-weight:600;line-height:1.45}
+.gi .gt p{font-size:12.5px;color:var(--muted);line-height:1.5}
+.gi .gt .tg{display:flex;flex-wrap:wrap;gap:4px;margin-top:1px}
+/* glossary + footer */
+.gloss{border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:13px}
+.gloss summary{cursor:pointer;padding:9px 14px;font-weight:600;font-size:13px}
+.gloss dl{margin:0;padding:2px 14px 12px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 14px}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0;color:var(--muted)}
+.res{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.res>div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--muted);min-width:0}
+.res b{color:var(--fg);font-size:13.5px}
+.res em{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.foot{border-top:1px solid var(--line)}
+.foot-in{max-width:1240px;margin:0 auto;padding:22px max(16px, env(safe-area-inset-right, 0px)) calc(26px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left, 0px));display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:12px;color:var(--faint)}
+.foot-in a{color:var(--muted)}
 
 /* drawer */
 .drawer{position:fixed;z-index:30;top:0;right:0;bottom:0;width:min(400px,100vw);background:var(--panel);border-left:1px solid var(--line);box-shadow:-18px 0 40px -20px rgba(0,0,0,.5);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -354,6 +390,7 @@ button[disabled]{cursor:default}
   .dom > button{grid-template-columns:minmax(0,1fr) 84px 20px}
   .dom > button .sq{grid-column:1/-1;grid-row:2}
   .dom-detail{grid-template-columns:minmax(0,1fr);padding-left:14px}
+  .glist{columns:1}
 }
 @media (max-width:640px){
   .wrap{padding-block:20px 56px;gap:22px}
@@ -363,6 +400,10 @@ button[disabled]{cursor:default}
   .drawer{top:auto;left:0;width:100%;max-height:88vh;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding-left:env(safe-area-inset-left,0px)}
   .brand{margin-right:0}
   .stage{padding:20px 14px}
+  .gloss dl,.res{grid-template-columns:minmax(0,1fr)}
+  .gloss dt{margin-top:4px}
+  .gi{grid-template-columns:minmax(0,1fr)}
+  .gi .gd em{display:inline;margin-left:6px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -372,20 +413,24 @@ button[disabled]{cursor:default}
 
 <header class="top">
   <div class="top-in">
-    <div class="brand"><span>Prototype · 나만 보기</span><b>Claude Cert Hub</b></div>
+    <div class="brand"><span>Claude 자격증 준비</span><b>Claude Cert Hub</b></div>
     <nav class="nav" aria-label="화면 전환">
-      <button type="button" data-nav="scheduler"><b>Cert Scheduler</b><span>전체 일정</span></button>
+      <button type="button" data-nav="scheduler"><b>Cert Scheduler</b><span>학습 일정</span></button>
       <button type="button" data-nav="guidance"><b>Cert Guidance</b><span>시험별 안내</span></button>
       <button type="button" data-nav="challenger"><b>Cert Challenger</b><span>시험별 학습</span></button>
     </nav>
   </div>
 </header>
 <main id="view"></main>
+<footer class="foot"><div class="foot-in">
+  <span>CLAUDE CERT HUB · 비공식 학습 도구 · 시험 정보 출처: Anthropic Partner Academy 공식 시험 가이드·Prep Course (2026년 10월 확인)</span>
+  <span><a href="https://thevoyager141.github.io/ccaf-academy/" target="_blank" rel="noopener">CCAR-F Academy ↗</a> · <a id="aoFoot" href="https://thevoyager141.github.io/ccao-academy/" target="_blank" rel="noopener">CCAO-F Academy ↗</a> · WMBB · CLAUDE PARTNER NETWORK</span>
+</div></footer>
 <div id="scrim" class="scrim" hidden></div>
 <aside id="drawer" class="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dr-title"></aside>
 <div id="tip" class="tip" hidden></div>
 
-<script>window.CERTHUB_SEED = {"aba-recruit": {"row": "aba", "type": "ext", "title": "ABA 1기 모집·홍보", "desc": "ABA 홈페이지·커뮤니티 오픈 후 1기 모집과 홍보. 카피·메시지 작업이 몰리는 기간", "start": "2026-10-30", "end": "2026-11-30"}, "aba-cohort": {"row": "aba", "type": "ext", "title": "ABA 1기 진행", "desc": "12/5 오프라인 온보딩 후 6주 과정. 1월 중후반 종료 예정", "start": "2026-12-05", "end": "2027-01-20"}, "common-struct": {"row": "common", "type": "struct", "title": "구조 복원", "desc": "공통 구조도 정독 + CCAR-F 개념 지도 D1~D5 복습 + CCAR-F 모의고사 1회(문항마다 구조도 단계 표시) + 오답을 단계별로 분류. 목표: 공통 구조를 설명 없이 그릴 수 있는 상태", "start": "2026-10-20", "end": "2026-10-26"}, "ao-lec": {"row": "ao", "type": "lec", "title": "CCAO-F Prep Course 모듈 8개", "desc": "공식 준비 과정 8개 모듈, 6시간 29분. 모듈마다 위치 확인 → 수강 → 구조도에 붙이기 → 문제 5개", "start": "2026-10-27", "end": "2026-11-05"}, "ao-prac": {"row": "ao", "type": "prac", "title": "CCAO-F 문제·모의고사", "desc": "문제 풀 + 60문항 모의고사 2회. 오답은 구조도 단계별로 분류", "start": "2026-11-06", "end": "2026-11-10"}, "ao-exam": {"row": "ao", "type": "exam", "title": "CCAO-F 시험", "desc": "현행 가이드(2026-07판) 기준. 60문항·120분·$99", "date": "2026-11-11"}, "ao-retake": {"row": "ao", "type": "retake", "title": "CCAO-F 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능. 12/7 개편 전이라 같은 가이드", "date": "2026-11-25"}, "dv-struct": {"row": "dv", "type": "struct", "title": "CCDV-F 구조도 · 개발 기초", "desc": "앱 요청 처리 흐름 구조도 + 개발 기초 레슨(REST, JSON, 비동기, git, SDK) + Claude Platform 101. 11/17 새 가이드 공개 후 구조도·도메인 갱신", "start": "2026-11-12", "end": "2026-11-18"}, "dv-lec": {"row": "dv", "type": "lec", "title": "CCDV-F Prep Course 모듈 5개 + API 강좌 + MCP 입문", "desc": "공식 준비 과정 5개 모듈(12시간 54분) + Building with the Claude API의 Getting started·Tool use 섹션 + Introduction to Model Context Protocol", "start": "2026-11-19", "end": "2026-12-08"}, "dv-prac": {"row": "dv", "type": "prac", "title": "CCDV-F 문제·모의고사", "desc": "새 가이드 기준 문제 풀 + 53문항 모의고사 2회", "start": "2026-12-01", "end": "2026-12-15"}, "dv-exam": {"row": "dv", "type": "exam", "title": "CCDV-F 시험", "desc": "새 가이드(11/17 공개) 기준. 53문항·120분·$125", "date": "2026-12-16"}, "dv-retake": {"row": "dv", "type": "retake", "title": "CCDV-F 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능", "date": "2026-12-30"}, "arp-lec": {"row": "arp", "type": "lec", "title": "CCAR-P 구조도 + Prep Course 모듈 5개", "desc": "기업 프로젝트 수명주기 구조도 + 공식 준비 과정 5개 모듈(12시간 13분) + Building with the Claude API의 RAG·Agents 섹션", "start": "2026-12-17", "end": "2027-01-05"}, "arp-prac": {"row": "arp", "type": "prac", "title": "CCAR-P 문제·모의고사", "desc": "새 가이드 기준 문제 풀 + 63문항 모의고사 2회", "start": "2026-12-28", "end": "2027-01-12"}, "arp-exam": {"row": "arp", "type": "exam", "title": "CCAR-P 시험", "desc": "새 가이드 기준. 63문항·120분·$175", "date": "2027-01-13"}, "arp-retake": {"row": "arp", "type": "retake", "title": "CCAR-P 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능", "date": "2027-01-27"}, "site-ao": {"row": "site", "type": "site", "title": "AO 문제 풀 제작", "desc": "Claude 작업. CCAO-F 현행 가이드 기준 문항, 구조도 단계 태그 포함", "start": "2026-10-16", "end": "2026-11-02"}, "site-dvbase": {"row": "site", "type": "site", "title": "DV 개발 기초 레슨 제작", "desc": "Claude 작업. Prep Course가 전제하는 개발 기초(REST, JSON, 비동기, git, SDK) 레슨", "start": "2026-10-27", "end": "2026-11-11"}, "site-dv": {"row": "site", "type": "site", "title": "새 가이드 반영 · DV 문항 제작", "desc": "Claude 작업. 11/17 새 가이드로 DV·AR-P 구조도·도메인 갱신 후 DV 문항 제작", "start": "2026-11-17", "end": "2026-11-29"}, "site-arp": {"row": "site", "type": "site", "title": "AR-P 문항 제작", "desc": "Claude 작업. 새 가이드 기준 AR-P 문항", "start": "2026-12-01", "end": "2026-12-20"}};</script>
+<script>window.CERTHUB_SEED = {"aba-recruit": {"row": "aba", "type": "ext", "title": "ABA 1기 모집·홍보", "desc": "ABA 홈페이지·커뮤니티 공개 후 1기 모집·홍보 기간. 학습 시간을 정할 때 참고하는 WMBB 일정", "start": "2026-10-30", "end": "2026-11-30"}, "aba-cohort": {"row": "aba", "type": "ext", "title": "ABA 1기 운영", "desc": "12/5 오프라인 온보딩 후 6주 과정. 1월 중후반 종료 예정", "start": "2026-12-05", "end": "2027-01-20"}, "common-struct": {"row": "common", "type": "struct", "title": "CCAR-F 범위 복습", "desc": "세 시험이 함께 쓰는 기초 점검. CCAR-F 5개 도메인 복습, 모의고사 1회, 틀린 문항을 역량 흐름 단계별로 분류", "start": "2026-10-20", "end": "2026-10-26"}, "ao-lec": {"row": "ao", "type": "lec", "title": "CCAO-F Prep Course 8개 모듈", "desc": "공식 준비 과정 8개 모듈 · 총 6시간 29분. 모듈별 학습 순서는 Cert Challenger에 정리", "start": "2026-10-27", "end": "2026-11-05"}, "ao-prac": {"row": "ao", "type": "prac", "title": "CCAO-F 연습 문제·모의고사", "desc": "CCAO-F Academy 연습 문제와 60문항 모의고사 2회. 틀린 문항은 출제 영역별로 정리", "start": "2026-11-06", "end": "2026-11-10"}, "ao-exam": {"row": "ao", "type": "exam", "title": "CCAO-F 시험", "desc": "현행 가이드(2026년 7월판) 기준. 60문항 · 120분 · $99", "date": "2026-11-11"}, "ao-retake": {"row": "ao", "type": "retake", "title": "CCAO-F 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능. 12/7 개편 전이므로 같은 가이드 적용", "date": "2026-11-25"}, "dv-struct": {"row": "dv", "type": "struct", "title": "CCDV-F 개발 기초", "desc": "Prep Course가 전제하는 개발 기초(REST, JSON, 비동기, git, SDK) 학습과 Claude Platform 101 수강. 11/17 새 가이드 공개 후 출제 범위 재확인", "start": "2026-11-12", "end": "2026-11-18"}, "dv-lec": {"row": "dv", "type": "lec", "title": "CCDV-F Prep Course 5개 모듈 + 보조 강좌", "desc": "Prep Course 5개 모듈(12시간 54분), Building with the Claude API 강좌의 Getting started·Tool use 섹션, Introduction to Model Context Protocol 강좌", "start": "2026-11-19", "end": "2026-12-08"}, "dv-prac": {"row": "dv", "type": "prac", "title": "CCDV-F 연습 문제·모의고사", "desc": "새 가이드 기준 연습 문제와 53문항 모의고사 2회", "start": "2026-12-01", "end": "2026-12-15"}, "dv-exam": {"row": "dv", "type": "exam", "title": "CCDV-F 시험", "desc": "새 가이드(11/17 공개) 기준. 53문항 · 120분 · $125", "date": "2026-12-16"}, "dv-retake": {"row": "dv", "type": "retake", "title": "CCDV-F 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능", "date": "2026-12-30"}, "arp-lec": {"row": "arp", "type": "lec", "title": "CCAR-P Prep Course 5개 모듈 + 보조 강좌", "desc": "Prep Course 5개 모듈(12시간 13분), Building with the Claude API 강좌의 RAG·Agents 섹션", "start": "2026-12-17", "end": "2027-01-05"}, "arp-prac": {"row": "arp", "type": "prac", "title": "CCAR-P 연습 문제·모의고사", "desc": "새 가이드 기준 연습 문제와 63문항 모의고사 2회", "start": "2026-12-28", "end": "2027-01-12"}, "arp-exam": {"row": "arp", "type": "exam", "title": "CCAR-P 시험", "desc": "새 가이드 기준. 63문항 · 120분 · $175", "date": "2027-01-13"}, "arp-retake": {"row": "arp", "type": "retake", "title": "CCAR-P 재응시 예비일", "desc": "탈락 시 14일 후 재응시 가능", "date": "2027-01-27"}, "site-ao": {"row": "site", "type": "site", "title": "CCAO-F Academy 공개", "desc": "영역별 레슨, 영어 연습 문제, 60문항 모의고사. 10/16 공개 후 11/2까지 문항 보강", "start": "2026-10-16", "end": "2026-11-02"}, "site-dvbase": {"row": "site", "type": "site", "title": "CCDV-F 개발 기초 레슨 공개", "desc": "Prep Course가 전제하는 개발 기초(REST, JSON, 비동기, git, SDK) 레슨", "start": "2026-10-27", "end": "2026-11-11"}, "site-dv": {"row": "site", "type": "site", "title": "CCDV-F 연습 문제 공개", "desc": "11/17 새 가이드 반영 후 CCDV-F 문항 제작·공개", "start": "2026-11-17", "end": "2026-11-29"}, "site-arp": {"row": "site", "type": "site", "title": "CCAR-P 연습 문제 공개", "desc": "새 가이드 기준 CCAR-P 문항 제작·공개", "start": "2026-12-01", "end": "2026-12-20"}};</script>
 <script>
 (function(){
 'use strict';
@@ -416,23 +461,24 @@ function lr(weights, total){
 }
 
 /* ---------- static content ---------- */
-var LV = { known:'학습 완료', partial:'일부 학습', new:'신규 학습' };
+var LV = { known:'이전 시험과 겹침', partial:'일부 겹침', new:'새 범위' };
 var ROWS = [
-  { id:'aba', label:'ABA', sub:'외부 일정', cc:'--muted' },
-  { id:'common', label:'공통', sub:'구조 복원', cc:'--accent-ink' },
+  { id:'aba', label:'ABA', sub:'WMBB 일정', cc:'--muted' },
+  { id:'common', label:'공통', sub:'세 시험 공통 기초', cc:'--accent-ink' },
   { id:'ao', label:'CCAO-F', sub:'Associate', cc:'--c-ao' },
   { id:'dv', label:'CCDV-F', sub:'Developer', cc:'--c-dv' },
   { id:'arp', label:'CCAR-P', sub:'Architect Pro', cc:'--c-arp' },
-  { id:'site', label:'학습 사이트', sub:'Claude 제작', cc:'--muted' }
+  { id:'site', label:'학습 사이트', sub:'공개 일정', cc:'--muted' }
 ];
+var LIST_ROWS = ['common','ao','dv','arp','site','aba'];
 var TYPES = {
-  struct:{ label:'구조 복원', kind:'bar' },
+  struct:{ label:'기초 학습', kind:'bar' },
   lec:{ label:'강의', kind:'bar' },
-  prac:{ label:'문제·모의고사', kind:'bar' },
-  ext:{ label:'외부 일정', kind:'bar' },
-  site:{ label:'사이트 제작 (Claude)', kind:'bar' },
+  prac:{ label:'연습 문제·모의고사', kind:'bar' },
   exam:{ label:'시험일', kind:'ms' },
-  retake:{ label:'재응시 예비일', kind:'ms' }
+  retake:{ label:'재응시 예비일', kind:'ms' },
+  site:{ label:'학습 사이트 공개', kind:'bar' },
+  ext:{ label:'참고 일정', kind:'bar' }
 };
 var MARKERS = [ { d:'2026-11-17', t:'11/17 새 가이드 공개' }, { d:'2026-12-07', t:'12/7 시험 개편 적용' } ];
 var P = 'https://anthropic-partners.skilljar.com/';
@@ -445,8 +491,8 @@ var EMB = {
 };
 
 var CERTS = {
-  arf:{ key:'arf', code:'CCAR-F', name:'Architect – Foundations', cc:'--c-arf', role:'솔루션 아키텍트', topic:'Claude 에이전트 시스템 설계·통제', items:60, fee:'$125', fmt:'시나리오형 (6개 중 4개)',
-    rules:['프롬프트 지시보다 코드로 강제','상황에 맞는 에이전트 구조·도구 범위'], big:'에이전트 아키텍처 27%', owned:true, url:'https://thevoyager141.github.io/ccaf-academy/' },
+  arf:{ key:'arf', code:'CCAR-F', name:'Architect – Foundations', cc:'--c-arf', role:'솔루션 아키텍트', topic:'Claude 에이전트 시스템 설계·통제', items:60, fee:'$125', fmt:'시나리오형 (6개 중 4개 출제)',
+    rules:['프롬프트 지시보다 코드로 강제','상황에 맞는 에이전트 구조·도구 범위'], big:'에이전트 아키텍처 27%', base:true, url:'https://thevoyager141.github.io/ccaf-academy/', siteName:'CCAR-F Academy' },
   ao:{ key:'ao', code:'CCAO-F', name:'Associate – Foundations', cc:'--c-ao', role:'비개발 실무자 (기획·마케팅·운영)', topic:'업무용 Claude 활용과 결과 검증', items:60, fee:'$99', fmt:'개별 문항',
     guide:'현행 가이드 (2026-07판)', rules:['인용·조항 번호는 원문 대조','단순 대량 작업은 빠르고 저렴한 모델','개인정보는 삭제·익명화 후 사용'], big:'결과물 평가·검증 21%',
     flowTitle:'업무 1건 처리 흐름', ask:'이 단계에서 가장 적절한 조치는?',
@@ -459,11 +505,12 @@ var CERTS = {
     loop:'결과 불량 → 원인 추적 → 2·3단계로 복귀', across:'넣어도 되는 자료, 사람 승인이 필요한 시점',
     prep:{ url:P+'path/claude-certified-associate-foundations', total:'6시간 29분' },
     site:(/github\.io$/.test(location.hostname) ? 'https://thevoyager141.github.io/ccao-academy/' : 'https://claude.ai/artifact/M27hf7Xq3yk5yGq78jUVsH'), siteName:'CCAO-F Academy',
-    reg:P+'claude-certified-associate-foundations-certification', basics:[["AI Capabilities and Limitations", "ai-capabilities-and-limitations", "15분 · 환각·한계 기초"], ["AI Fluency: Framework & Foundations", "ai-fluency-framework-foundations", "훑어보기 · 용어만"]],
+    reg:P+'claude-certified-associate-foundations-certification', basics:[["AI Capabilities and Limitations", "ai-capabilities-and-limitations", "15분 · 환각·한계 기초"], ["AI Fluency: Framework & Foundations", "ai-fluency-framework-foundations", "용어 확인용으로 훑어보기"]],
+    qsNote:'정식 연습 문제 183개와 60문항 모의고사는 CCAO-F Academy에 있음.', mockNote:'CCAO-F Academy의 모의고사 메뉴에서 바로 응시 가능.',
     guideUrl:'https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542847%2FClaude+Certified+Associate+%E2%80%93+Foundations+Exam+Guide.pdf',
     domains:[
       { id:'d1', n:'프롬프트·작업 실행', w:14, lv:'partial', st:['3'], mods:[1], obj:['업무·기술 작업용 프롬프트 작성','복잡한 요청을 작업 단위로 분해','결과 개선을 위한 프롬프트 반복 수정','작업 유형(분석·리서치·초안·브레인스토밍)별 전략 조정'] },
-      { id:'d2', n:'결과물 평가·검증', w:21, lv:'new', st:['4'], mods:[2], strong:true, obj:['정확성·완결성 평가','환각·불일치·편향 식별','사실 확인·검증 기법 적용','사람 검토·추가 검증이 필요한 시점 판단','독자에 맞게 수정·비교','출력 형식(아티팩트·인라인·구조화 데이터) 선택'] },
+      { id:'d2', n:'결과물 평가·검증', w:21, lv:'new', st:['4'], mods:[2], obj:['정확성·완결성 평가','환각·불일치·편향 식별','사실 확인·검증 기법 적용','사람 검토·추가 검증이 필요한 시점 판단','독자에 맞게 수정·비교','출력 형식(아티팩트·인라인·구조화 데이터) 선택'] },
       { id:'d3', n:'제품·모델 선택', w:12, lv:'partial', st:['1'], mods:[0], obj:['제품 기능(Projects·리서치 모드·채팅·아티팩트) 선택','Haiku·Sonnet·Opus 구분','비용·속도·품질에 맞춘 모델 선택','컨텍스트 한계·메모리 관리 (재시작·요약·유지 시점)'] },
       { id:'d4', n:'업무 흐름 통합·설계', w:16, lv:'new', st:['5'], mods:[3], obj:['요구사항·사용 사례 분석에 활용','리서치·기획·프로세스 개선에 활용','솔루션 설계·개발·반복 지원','기존 업무 흐름에 통합·재설계','이해관계자에게 가치·한계 설명'] },
       { id:'d5', n:'설정·지식 관리', w:12, lv:'partial', st:['2'], mods:[4], obj:['Projects 지시문·지식 소스 설정','업로드 지식·커넥터(Google Drive, Gmail) 관리','시스템 수준 지시문 작성','설정·지식·지시문 유지·갱신'] },
@@ -515,11 +562,11 @@ var CERTS = {
       { id:'d3', n:'Claude Code', w:3.1, lv:'known', st:['across'], mods:[2], obj:['Rules·Skills·Commands·Agents·Memory, 세션 관리, 슬래시 명령, headless·streaming·auto 모드, CLAUDE.md 계층, settings.json'] },
       { id:'d4', n:'평가·디버깅', w:2.6, lv:'known', st:['5'], mods:[3], obj:['오류 유형 식별, 복구 전략 선택, 추적 분석, 연동 계층 vs 모델 출력 원인 분리'] } ],
     modules:[
-      { t:'MSO Foundations', min:57, slug:'mso-foundations', les:[["Orientation", 1], ["How LLMs Behave", 1], ["Models & Reasoning", 1], ["Prompting Modes", 1], ["Technical Substrate", 1], ["Module Wrap-up", 4]], scr:9, cp:2, st:'3', dom:['d5','d2'], obj:['토큰, 고정 예산인 컨텍스트 창, 샘플링과 비결정성','모델 등급 vs 추론 모드(extended thinking) 구분','zero·one·multi-shot 선택과 비용','SDK vs REST, 동기 vs 스트리밍, 대량 처리용 비동기'], note:'사이트 개발 기초 레슨과 병행' },
-      { t:'Production-Grade Prompting, Agents & Tool Use', min:209, slug:'production-grade-prompting-agents-tool-use', les:[["Orientation", 1], ["Prompting Craft", 3], ["Extended Thinking", 2], ["Tool-use and Schema Design", 3], ["Streaming Responses", 3], ["Context Engineering", 3], ["Agent Construction", 3], ["Agent Memory", 3], ["Cumulative Debug Task", 2], ["Multimodal and Batch Ingestion", 3], ["Module Wrap-up", 3]], scr:29, cp:9, st:'4', dom:['d6','d1','d8'], obj:['시스템 프롬프트·XML·few-shot·출력 제약','extended thinking 예산, thinking 블록 처리','도구 스키마·도구 사용 루프·병렬 호출','스트리밍 조립·중단 복구','컨텍스트 압축·기록 정리·하위 에이전트 인계','워크플로 vs 에이전트, 되돌릴 수 없는 작업에 사람 확인'], note:'CCAR-F와 다수 중복. 신규 부분 위주' },
+      { t:'MSO Foundations', min:57, slug:'mso-foundations', les:[["Orientation", 1], ["How LLMs Behave", 1], ["Models & Reasoning", 1], ["Prompting Modes", 1], ["Technical Substrate", 1], ["Module Wrap-up", 4]], scr:9, cp:2, st:'3', dom:['d5','d2'], obj:['토큰, 고정 예산인 컨텍스트 창, 샘플링과 비결정성','모델 등급 vs 추론 모드(extended thinking) 구분','zero·one·multi-shot 선택과 비용','SDK vs REST, 동기 vs 스트리밍, 대량 처리용 비동기'], note:'개발 경험이 없으면 Claude Platform 101 강좌를 먼저 수강' },
+      { t:'Production-Grade Prompting, Agents & Tool Use', min:209, slug:'production-grade-prompting-agents-tool-use', les:[["Orientation", 1], ["Prompting Craft", 3], ["Extended Thinking", 2], ["Tool-use and Schema Design", 3], ["Streaming Responses", 3], ["Context Engineering", 3], ["Agent Construction", 3], ["Agent Memory", 3], ["Cumulative Debug Task", 2], ["Multimodal and Batch Ingestion", 3], ["Module Wrap-up", 3]], scr:29, cp:9, st:'4', dom:['d6','d1','d8'], obj:['시스템 프롬프트·XML·few-shot·출력 제약','extended thinking 예산, thinking 블록 처리','도구 스키마·도구 사용 루프·병렬 호출','스트리밍 조립·중단 복구','컨텍스트 압축·기록 정리·하위 에이전트 인계','워크플로 vs 에이전트, 되돌릴 수 없는 작업에 사람 확인'], note:'CCAR-F와 겹치는 내용이 많음. 처음 보는 부분 위주로 학습' },
       { t:'Claude Code, MCP & Integration', min:142, slug:'claude-code-mcp-integration', les:[["Module Introduction", 1], ["Permission Modes & Human Gates", 3], ["Durable Project Context", 3], ["Packaging Workflows", 4], ["MCP Servers", 3], ["Enterprise Integration", 3], ["Cumulative Integration Task", 2], ["Key Takeaways", 2], ["Module Complete", 1]], scr:22, cp:6, st:'2', dom:['d3','d8','d2'], obj:['탐색·계획·코딩 루프와 권한 모드','AI 생성 코드 검토, 사람 검토 지점','CLAUDE.md·rules·훅·하위 에이전트','Skills·명령·플러그인 패키징','MCP 서버(도구·리소스·프롬프트), 전송 방식, 설정 범위','기업 시스템 연결·인증'] },
-      { t:'Production Engineering, Evals & Security', min:211, slug:'production-engineering-evals-security', les:[["Module Introduction", 1], ["Evals & Judges", 3], ["Testing & Tracing", 3], ["Failure Handling & Model Selection", 5], ["Cost & Orchestration", 3], ["Security", 3], ["Cumulative Task", 2], ["Key Takeaways", 2]], scr:21, cp:6, st:'5', dom:['d4','d7','d5'], obj:['배포 전 eval로 완료 기준 정의, LLM 채점 보정','단위·기능·통합·E2E 테스트와 추적','재시도 가능 오류 vs 종료 오류','비용·지연·안정성 예산, 병렬 에이전트 판단','인젝션·탈옥·신뢰 불가 입력·비밀 키·데이터 경계 방어'], note:'가장 낯선 영역' },
-      { t:'Accelerators & IP Contribution', min:155, slug:'accelerators-ip-contribution', les:[["Module Introduction", 1], ["Packaging for Reuse", 3], ["Contributing Back", 3], ["Requirements & Lifecycle", 4], ["Deployment & Versioning", 3], ["Comparing Platforms", 3], ["Trust Boundaries", 3], ["Cumulative Task", 2], ["Key Takeaways", 3]], scr:25, cp:9, st:'1', dom:['d2'], obj:['재사용 템플릿·MCP 서버·eval 묶음','공유 인프라로 기여','1st-party API·Bedrock·Vertex 선택, 버전 관리','플랫폼별 지연·규정·비용 비교','여러 배포를 묶는 앱의 데이터·신원 경계'], note:'마지막 순서. 새 가이드 범위에 맞춰 분량 조절' } ],
+      { t:'Production Engineering, Evals & Security', min:211, slug:'production-engineering-evals-security', les:[["Module Introduction", 1], ["Evals & Judges", 3], ["Testing & Tracing", 3], ["Failure Handling & Model Selection", 5], ["Cost & Orchestration", 3], ["Security", 3], ["Cumulative Task", 2], ["Key Takeaways", 2]], scr:21, cp:6, st:'5', dom:['d4','d7','d5'], obj:['배포 전 eval로 완료 기준 정의, LLM 채점 보정','단위·기능·통합·E2E 테스트와 추적','재시도 가능 오류 vs 종료 오류','비용·지연·안정성 예산, 병렬 에이전트 판단','인젝션·탈옥·신뢰 불가 입력·비밀 키·데이터 경계 방어'], note:'CCAR-F에 없는 내용 비중이 가장 높은 모듈' },
+      { t:'Accelerators & IP Contribution', min:155, slug:'accelerators-ip-contribution', les:[["Module Introduction", 1], ["Packaging for Reuse", 3], ["Contributing Back", 3], ["Requirements & Lifecycle", 4], ["Deployment & Versioning", 3], ["Comparing Platforms", 3], ["Trust Boundaries", 3], ["Cumulative Task", 2], ["Key Takeaways", 3]], scr:25, cp:9, st:'1', dom:['d2'], obj:['재사용 템플릿·MCP 서버·eval 묶음','공유 인프라로 기여','1st-party API·Bedrock·Vertex 선택, 버전 관리','플랫폼별 지연·규정·비용 비교','여러 배포를 묶는 앱의 데이터·신원 경계'], note:'11/17 새 가이드의 출제 범위 확인 후 수강 분량 결정' } ],
     qs:[
       { id:'dv1', st:'4', ok:1,
         stem:'Your application gives Claude a get_order_status tool. A response comes back with stop_reason set to "tool_use". What should the application do next?',
@@ -545,21 +592,21 @@ var CERTS = {
       { sn:'운영·인계', sd:'팀 설정·배포, 문서화, 운영 문제 해결' } ],
     loop:'운영 데이터 → 평가 → 설계 변경. 평가 통과 전 변경 금지', across:'안전장치 배치(입력·출력·도구 호출), 사람 승인, 규제 대응',
     prep:{ url:P+'path/claude-certified-architect-professional', total:'12시간 13분' },
-    reg:P+'claude-certified-architect-professional-certification', basics:[["Building with the Claude API", "claude-with-the-anthropic-api", "부분 · RAG·Agents and workflows"], ["Model Context Protocol: Advanced Topics", "model-context-protocol-advanced-topics", "시간 여유 시"]],
+    reg:P+'claude-certified-architect-professional-certification', basics:[["Building with the Claude API", "claude-with-the-anthropic-api", "부분 · RAG·Agents and workflows"], ["Model Context Protocol: Advanced Topics", "model-context-protocol-advanced-topics", "선택 · 심화 내용"]],
     guideUrl:'https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf',
     domains:[
       { id:'d3', n:'통합', w:19, lv:'new', st:['3'], mods:[1], obj:['도구·에이전트 구성 과잉 점검','인증·권한 보안 공백 분석','정확도-지연 트레이드오프 판단','대규모 관측성·모니터링 전략','RAG 파이프라인 설계 (청킹·색인)','데이터 형태·질의 패턴별 검색 전략','연결 방식 선택 (MCP·API/CLI·에이전트 간)','점진적 탐색 vs 한 번에 넣기'] },
       { id:'d1', n:'솔루션 설계·아키텍처', w:17, lv:'partial', st:['2'], mods:[0], obj:['비즈니스 문제 → Claude 솔루션','전체 아키텍처 (입력 → 처리 → 출력 → 피드백)','패턴 선택 (워크플로·에이전트·augmented LLM)','멀티에이전트·오케스트레이션 설계','문제 분해','비즈니스 가치(효율·비용·성능 SLA) 정렬'] },
       { id:'d4', n:'평가·테스트·최적화', w:16, lv:'new', st:['4'], mods:[1], obj:['평가 지표 (정확도·지연·비용·안전·보안)','평가 데이터셋·테스트 프레임워크','A/B 테스트·반복 개선','시스템 문제 진단 (프롬프트 실패·환각·모델 부적합)','토큰·지연·비용 최적화','로깅·관측 도구로 모니터링'] },
       { id:'d5', n:'거버넌스·안전·리스크', w:14, lv:'partial', st:['across'], mods:[2], obj:['가드레일·안전 통제 구현','LLM 리스크·한계·실패 유형','사람 검증 (human-in-the-loop)','규제 준수 (GDPR·HIPAA·FedRAMP)','편향·공정성·투명성'] },
-      { id:'d6', n:'이해관계자 소통·수명주기', w:14, lv:'new', st:['1','5'], mods:[3], strong:true, obj:['구조화된 발굴·요구사항 수집','아키텍처 결정·트레이드오프 설명','피드백 루프·기대치(SLA) 관리','아키텍처 문서화·구현 가이드','수명주기 단계 (발굴·설계·인계·모니터링·반복) 지원'] },
+      { id:'d6', n:'이해관계자 소통·수명주기', w:14, lv:'new', st:['1','5'], mods:[3], obj:['구조화된 발굴·요구사항 수집','아키텍처 결정·트레이드오프 설명','피드백 루프·기대치(SLA) 관리','아키텍처 문서화·구현 가이드','수명주기 단계 (발굴·설계·인계·모니터링·반복) 지원'] },
       { id:'d2', n:'모델·프롬프트·컨텍스트', w:13, lv:'known', st:['2'], mods:[0], obj:['모델 선택','시스템 프롬프트·템플릿·가드레일 설계','zero-shot·few-shot·chain-of-thought','컨텍스트 창·토큰 최적화','프롬프트 재사용 (캐싱·모듈형·Skills)'] },
       { id:'d7', n:'개발 생산성·운영 지원', w:7, lv:'known', st:['5'], mods:[4], obj:['팀용 Claude 도구·환경 설정 (예: Claude Code)','AI 도구로 개발 흐름 개선','디버깅·운영 이슈 해결 지원'] } ],
     modules:[
-      { t:'Claude Platform & Solution Design', min:238, slug:'claude-platform-solution-design', les:[["Module Introduction", 1], ["How Claude Behaves", 1], ["Platform Map & Primitives", 4], ["Decomposition", 4], ["Pattern Selection", 5], ["Reference Architectures", 3], ["RAG Pipeline Design", 2], ["Model & Context Strategy", 3], ["Prompting as Architecture", 4], ["Entry Points & Governance", 3], ["Assembly & Recap", 3], ["Module Complete", 1]], scr:34, cp:11, st:'2', dom:['d1','d2'], obj:['요청을 Claude·기존 시스템·사람 담당으로 분해','augmented call·워크플로·에이전트 선택과 비용','참조 아키텍처 패턴, 검색 vs 실시간 상태','모델·컨텍스트 전략, 모델 교체 전 eval','진입점(Claude.ai·API·SDK·Claude Code·MCP)별 맞춤 범위','거버넌스·규제로 제외되는 경로 판단'], note:'4회로 나눠 수강' },
+      { t:'Claude Platform & Solution Design', min:238, slug:'claude-platform-solution-design', les:[["Module Introduction", 1], ["How Claude Behaves", 1], ["Platform Map & Primitives", 4], ["Decomposition", 4], ["Pattern Selection", 5], ["Reference Architectures", 3], ["RAG Pipeline Design", 2], ["Model & Context Strategy", 3], ["Prompting as Architecture", 4], ["Entry Points & Governance", 3], ["Assembly & Recap", 3], ["Module Complete", 1]], scr:34, cp:11, st:'2', dom:['d1','d2'], obj:['요청을 Claude·기존 시스템·사람 담당으로 분해','augmented call·워크플로·에이전트 선택과 비용','참조 아키텍처 패턴, 검색 vs 실시간 상태','모델·컨텍스트 전략, 모델 교체 전 eval','진입점(Claude.ai·API·SDK·Claude Code·MCP)별 맞춤 범위','거버넌스·규제로 제외되는 경로 판단'], note:'238분 분량. 4회 정도로 나눠 수강 권장' },
       { t:'Enterprise Integration & Production', min:158, slug:'enterprise-integration-production', les:[["Module Introduction", 1], ["Evals", 3], ["POC to Prod", 3], ["Sizing", 3], ["Integration", 3], ["A/B & Obs", 3], ["Exercise: Eval Framework", 1], ["Wrap-up", 4]], scr:20, cp:6, st:'3', dom:['d3','d4'], obj:['성공 기준·eval을 코드보다 먼저, 변경의 관문으로','PoC → 운영 체크리스트: 비용·지연·재시도·폴백·서킷 브레이커','호출량·토큰·비용 추정','규정·SSO/OAuth·권한·데이터·관측성 통합 패턴'], note:'최대 비중 영역' },
       { t:'Responsible AI, Safety & Risk for Architects', min:114, slug:'responsible-ai-safety-risk-for-architects', les:[["Module Introduction", 1], ["Alignment", 3], ["Guardrails", 5], ["Fairness", 3], ["Review routing", 3], ["Compliance", 3], ["Wrap-up", 4]], scr:21, cp:7, st:'across', dom:['d5'], obj:['모델 학습이 줄이는 것 vs 앱이 강제해야 할 것','입력·출력 검사, 도구 호출 승인 배치 (실패 시 닫힘)','공정성·설명 가능성','신뢰도·되돌림 가능성·비용으로 검토자 배정','규정 의무 → 통제·담당자·증거 매핑'] },
-      { t:'Stakeholder Engagement, Lifecycle & GTM', min:178, slug:'stakeholder-engagement-lifecycle-gtm', les:[["Module Introduction", 1], ["Discovery", 3], ["Tradeoffs", 3], ["Feedback Loops", 3], ["Documentation", 3], ["Entry Point", 3], ["Wrap-up", 4]], scr:19, cp:6, st:'1', dom:['d6'], obj:['비기술 이해관계자 발굴 대화 → 요구사항·가정 문서화','트레이드오프를 비용·리스크·되돌리기 비용으로 제시','피드백 루프·SLA 위반 대응·재설계 판단','파트너 영업 단계의 아키텍트 역할','멀티 플랫폼 배포 전략'], note:'업무 경험 활용 영역' },
+      { t:'Stakeholder Engagement, Lifecycle & GTM', min:178, slug:'stakeholder-engagement-lifecycle-gtm', les:[["Module Introduction", 1], ["Discovery", 3], ["Tradeoffs", 3], ["Feedback Loops", 3], ["Documentation", 3], ["Entry Point", 3], ["Wrap-up", 4]], scr:19, cp:6, st:'1', dom:['d6'], obj:['비기술 이해관계자 발굴 대화 → 요구사항·가정 문서화','트레이드오프를 비용·리스크·되돌리기 비용으로 제시','피드백 루프·SLA 위반 대응·재설계 판단','파트너 영업 단계의 아키텍트 역할','멀티 플랫폼 배포 전략'] },
       { t:'Team Enablement & Operational Productivity', min:45, slug:'developer-productivity-enablement', les:[["Module Introduction", 1], ["Team Setup", 2], ["Dev Workflows", 2], ["Ops Support", 1], ["Wrap-up", 3], ["Module Complete", 1]], scr:9, cp:3, st:'5', dom:['d7'], obj:['팀 공유 설정·배포 방식·Skills 배포·비용 통제','AI 생성 결과 검토 기준','증상 → 아키텍처 원인 연결, 팀 자립'] } ],
     qs:[
       { id:'arp1', st:'4', ok:1,
@@ -577,6 +624,7 @@ var CERTS = {
   }
 };
 var ORDER = ['ao','dv','arp'];
+try { var aoF = document.getElementById('aoFoot'); if (aoF) aoF.href = CERTS.ao.site; } catch(e){}
 Object.keys(CERTS).forEach(function(k){
   var c = CERTS[k];
   if (c.domains){ var cn = lr(c.domains.map(function(d){ return d.w; }), c.items); c.domains.forEach(function(d,i){ d.q = cn[i]; }); }
@@ -635,10 +683,10 @@ function initDb(){
 }
 function writeItem(it){
   S.items[it.id] = it;
-  if (!db){ setSave('저장소 없음 · 새로고침 시 사라짐'); return Promise.resolve(); }
+  if (!db){ setSave('저장 안 됨 · 새로고침하면 사라짐'); return Promise.resolve(); }
   var body = Object.assign({}, it); delete body.id; delete body._lane; delete body._lab; delete body._out;
   setSave('저장 중…');
-  return db.collection('items').doc(it.id).set(body).then(function(){ setSave('저장됨 ' + stamp()); }, function(){ setSave('저장 실패 · 다시 시도'); });
+  return db.collection('items').doc(it.id).set(body).then(function(){ setSave('저장됨 ' + stamp()); }, function(){ setSave('저장 실패 · 다시 시도할 것'); });
 }
 function deleteItem(id){
   delete S.items[id];
@@ -654,7 +702,7 @@ async function resetToBaseline(){
     var base = S.baseline;
     for (var id in S.items){ if (!base[id]) await db.collection('items').doc(id).delete(); }
     for (var bid in base){ var b = Object.assign({}, base[bid]); delete b.id; await db.collection('items').doc(bid).set(b); }
-    setSave('기본안 복원 ' + stamp());
+    setSave('기본 일정 복원 ' + stamp());
   } catch(e){ setSave('복원 실패'); }
 }
 function saveProgress(ck){
@@ -702,19 +750,22 @@ function layout(){
 var LANE = 32, MSB = 30, PADT = 8;
 function rScheduler(){
   var h = '<div class="wrap">';
-  h += '<div class="sec"><div><div class="eyebrow">Cert Scheduler</div><h1>전체 일정</h1>';
-  h += '<p class="lead">블록 드래그 = 날짜 이동. 블록 양끝 드래그 = 기간 조절. 블록 클릭 = 내용 확인·수정. 변경 내용은 자동 저장.</p></div>';
-  if (S.dbState === 'none') h += '<div class="banner">저장소 연결 안 됨. claude.ai에 로그인한 상태로 열면 일정 불러오기·저장 가능. 지금 화면의 수정은 새로고침 시 사라짐.</div>';
-  if (S.dbState === 'err') h += '<div class="banner">저장소 연결 끊김. 새로고침 후 다시 시도.</div>';
-  if (S.local) h += '<p class="howto" style="margin:0 0 10px"><b>저장 위치</b>편집 내용은 이 브라우저에만 저장됨. 다른 기기와 다른 사람에게는 기본 일정이 보임.</p>';
-  h += '<div class="toolbar"><button class="btn primary" type="button" data-act="add">+ 블록 추가</button>';
+  h += '<div class="sec"><div><div class="eyebrow">Cert Scheduler</div><h1>자격증 학습 일정</h1>';
+  h += '<p class="lead">CCAO-F, CCDV-F, CCAR-P 세 시험을 2027년 1월까지 차례로 준비하는 기본 일정. 기간은 2026년 10월 15일부터 2027년 1월 31일까지.</p>';
+  h += '<p class="howto"><b>사용법</b>막대를 끌면 날짜 이동. 막대 양 끝을 끌면 기간 조절. 막대나 아래 목록을 누르면 내용 확인·수정. 수정 내용은 자동 저장.</p>';
+  if (S.local) h += '<p class="howto"><b>저장 위치</b>수정 내용은 지금 쓰는 브라우저에만 저장됨. 다른 사람과 다른 기기에는 기본 일정이 보임.</p>';
+  h += '</div>';
+  if (S.dbState === 'none') h += '<div class="banner">저장소에 연결되지 않음. 지금 화면에서 고친 내용은 새로고침하면 사라짐.</div>';
+  if (S.dbState === 'err') h += '<div class="banner">저장소 연결이 끊김. 새로고침 후 다시 시도할 것.</div>';
+  h += '<div class="toolbar"><button class="btn primary" type="button" data-act="add">+ 일정 추가</button>';
   var hasBase = Object.keys(S.baseline).length > 0;
   if (hasBase){
     h += S.confirmReset
-      ? '<button class="btn warn" type="button" data-act="reset-go">현재 수정 내용 지우고 기본안으로 복원</button><button class="btn" type="button" data-act="reset-cancel">취소</button>'
-      : '<button class="btn" type="button" data-act="reset">기본안으로 되돌리기</button>';
+      ? '<button class="btn warn" type="button" data-act="reset-go">수정 내용을 지우고 기본 일정으로 복원</button><button class="btn" type="button" data-act="reset-cancel">취소</button>'
+      : '<button class="btn" type="button" data-act="reset">기본 일정으로 되돌리기</button>';
   }
   h += '<span class="status" id="savest" aria-live="polite">' + esc(S.save) + '</span></div></div>';
+  h += glossary();
 
   // D-day
   var ex = ORDER.map(function(k){ var e = null; Object.keys(S.items).forEach(function(id){ var it = S.items[id]; if (it.row === k && it.type === 'exam' && (!e || pd(it.date) < pd(e.date))) e = it; }); return { k:k, e:e }; });
@@ -751,25 +802,56 @@ function rScheduler(){
     h += '</div></div>';
   });
   h += '</div></div></div>';
-  if (S.dbState === 'ok' && S.loaded && !Object.keys(S.items).length) h += '<div class="empty">아직 일정 블록이 없음. ' + (hasBase ? '"기본안으로 되돌리기"로 기본 일정을 불러오거나 ' : '') + '"+ 블록 추가"로 첫 블록 만들기.</div>';
+  if (S.dbState === 'ok' && S.loaded && !Object.keys(S.items).length) h += '<div class="empty">등록된 일정이 없음. ' + (hasBase ? '"기본 일정으로 되돌리기"를 누르면 기본 일정을 불러옴. ' : '') + '"+ 일정 추가"로 새 일정 등록 가능.</div>';
   if (S.dbState === 'loading') h += '<div class="empty">일정 불러오는 중…</div>';
-  h += '<p class="howto"><b>읽는 법</b>가로축 = 날짜(눈금 = 월요일). 한 줄 = 시험 또는 일정 묶음. 막대 = 기간. ◆ = 시험일, ◇ = 재응시 예비일(탈락 시 14일 후). 세로 점선 = 11/17 새 가이드 공개, 12/7 시험 개편 적용. 회색 실선 = 오늘.</p>';
-  h += '<div class="legend"><span><i class="struct"></i>구조 복원</span><span><i class="lec"></i>강의</span><span><i class="prac"></i>문제·모의고사</span><span><i class="d exam"></i>시험일</span><span><i class="d retake"></i>재응시 예비일</span><span><i class="ext"></i>외부 일정</span><span><i class="site"></i>사이트 제작 (Claude)</span><span><i class="ml"></i>가이드 공개·개편</span></div></div>';
+  h += '<p class="howto"><b>읽는 법</b>가로축 = 날짜(작은 숫자 = 그 주 월요일). 한 줄 = 시험 1개 또는 일정 구분 1개. 막대 = 기간. ◆ = 시험일. ◇ = 재응시 예비일(탈락 시 14일 후 응시 가능). 세로 점선 = 시험 가이드 변경 시점. 회색 실선 = 오늘. ABA 줄 = 학습과 겹치는 WMBB 일정.</p>';
+  h += '<div class="legend">' + Object.keys(TYPES).map(function(k){ return '<span><i class="' + (TYPES[k].kind === 'ms' ? 'd ' : '') + k + '"></i>' + TYPES[k].label + '</span>'; }).join('') + '<span><i class="ml"></i>시험 가이드 변경</span></div></div>';
 
-  // list
+  h += schedList();
+  return h + '</div>';
+}
+/* 일정 상세 목록: 시험별 또는 종류별로 묶어서 표시 */
+try { S.listBy = localStorage.getItem('certhub_listby') === 'type' ? 'type' : 'cert'; } catch(e){ S.listBy = 'cert'; }
+function itemWhen(it){
+  var ms = (TYPES[it.type]||{}).kind === 'ms';
+  return ms ? md(it.date) + '(' + wd(it.date) + ')' : md(it.start) + ' – ' + md(it.end) + '<em>' + span(it.start, it.end) + '일</em>';
+}
+function typeChip(t){ return '<span class="tchip ' + esc(t) + '">' + esc((TYPES[t]||{}).label || t) + '</span>'; }
+function schedList(){
   var list = Object.keys(S.items).map(function(id){ return S.items[id]; });
-  var ri = {}; ROWS.forEach(function(r,i){ ri[r.id] = i; });
-  list.sort(function(a,b){ return (ri[a.row]||0) - (ri[b.row]||0) || pd(a.start||a.date) - pd(b.start||b.date); });
-  h += '<div class="sec"><div><h2>블록 목록</h2><p class="howto"><b>읽는 법</b>차트에서 잘려 보이는 이름·설명 전체. 행 클릭 = 수정.</p></div>';
-  h += '<div class="tw"><table class="lt"><thead><tr><th>행</th><th>종류</th><th>이름</th><th>기간</th><th>설명</th></tr></thead><tbody>';
-  if (!list.length) h += '<tr><td colspan="5" class="d">블록 없음</td></tr>';
-  list.forEach(function(it){
-    var r = rowOf(it.row); var ms = (TYPES[it.type]||{}).kind === 'ms';
-    var per = ms ? md(it.date) + '(' + wd(it.date) + ')' : md(it.start) + '–' + md(it.end) + ' · ' + span(it.start, it.end) + '일';
-    h += '<tr data-item-row="' + esc(it.id) + '" tabindex="0"><td><span class="rowname" style="--cc:var(' + r.cc + ')">' + esc(r.label) + '</span></td><td><span class="tchip ' + esc(it.type) + '">' + esc((TYPES[it.type]||{}).label || it.type) + '</span></td><td class="n">' + esc(it.title) + '</td><td class="p">' + per + '</td><td class="d">' + esc(it.desc || '') + '</td></tr>';
+  var byCert = S.listBy !== 'type';
+  var keys = byCert ? LIST_ROWS : Object.keys(TYPES);
+  var groups = {}; keys.forEach(function(k){ groups[k] = []; });
+  list.forEach(function(it){ var k = byCert ? (groups[it.row] ? it.row : 'common') : (groups[it.type] ? it.type : 'lec'); groups[k].push(it); });
+  var h = '<div class="sec"><div class="lhd"><div><h2>일정 상세</h2><p class="howto"><b>읽는 법</b>차트에서 잘려 보이는 이름과 설명 전체. 항목을 누르면 수정 화면이 열림.</p></div>';
+  h += '<div class="lsw" role="group" aria-label="목록 묶는 기준"><button type="button" data-act="listby" data-v="cert" aria-pressed="' + byCert + '">시험별</button><button type="button" data-act="listby" data-v="type" aria-pressed="' + !byCert + '">종류별</button></div></div>';
+  if (!list.length){ return h + '<div class="empty">등록된 일정이 없음.</div></div>'; }
+  h += '<div class="glist">';
+  keys.forEach(function(k){
+    var g = groups[k]; if (!g.length) return;
+    g.sort(function(a,b){ return pd(a.start||a.date) - pd(b.start||b.date) || pd(a.end||a.date) - pd(b.end||b.date); });
+    var hd;
+    if (byCert){ var r = rowOf(k); hd = '<div class="grp" style="--cc:var(' + r.cc + ')"><div class="grp-hd"><b>' + esc(r.label) + '</b><span>' + esc(r.sub) + '</span><em>' + g.length + '개</em></div>'; }
+    else { hd = '<div class="grp"><div class="grp-hd">' + typeChip(k) + '<em>' + g.length + '개</em></div>'; }
+    h += hd + '<ul>' + g.map(function(it){
+      var r = rowOf(it.row);
+      var tag = byCert ? typeChip(it.type) : '<span class="rowname" style="--cc:var(' + r.cc + ')">' + esc(r.label) + '</span>';
+      return '<li><div class="gi" data-item-row="' + esc(it.id) + '" tabindex="0" role="button" aria-label="' + esc(it.title) + ' 수정"><span class="gd">' + itemWhen(it) + '</span><div class="gt"><span class="tg">' + tag + '</span><b>' + esc(it.title) + '</b>' + (it.desc ? '<p>' + esc(it.desc) + '</p>' : '') + '</div></div></li>';
+    }).join('') + '</ul></div>';
   });
-  h += '</tbody></table></div></div></div>';
-  return h;
+  return h + '</div></div>';
+}
+var GLOSS = [
+  ['Partner Academy', 'Anthropic의 파트너용 공식 학습 사이트. Prep Course 수강과 시험 등록을 모두 여기서 진행'],
+  ['시험 가이드', '시험별 공식 PDF 문서. 출제 영역, 영역별 비중, 문항 형식을 정함'],
+  ['Prep Course', '시험별 공식 준비 과정. 여러 모듈로 나뉜 읽기 자료, 연습, 퀴즈로 구성'],
+  ['출제 영역', '시험 가이드가 나눈 출제 범위 단위. 영어 원문은 Domain. 영역마다 출제 비중(%)이 정해져 있음'],
+  ['역량 흐름', '실무 한 건을 처리하는 단계 순서. 모든 문항은 이 흐름의 한 단계 상황에서 출제됨'],
+  ['이전 시험과 겹침', 'CCAR-F에서 이미 다룬 범위. CCAR-P는 CCAR-F와 CCDV-F 범위를 기준으로 판단'],
+  ['재응시 예비일', '시험에 떨어졌을 때 다시 볼 수 있는 가장 이른 날. 첫 응시 14일 후']
+];
+function glossary(){
+  return '<details class="gloss"><summary>용어 풀이</summary><dl>' + GLOSS.map(function(g){ return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>'; }).join('') + '</dl></details>';
 }
 
 /* drawer editor */
@@ -779,14 +861,14 @@ function openEditor(id, isNew, preset){
   if (isNew && !it.end) it.end = clampD(addD(it.start, 6));
   S.edit = it.id; S.editNew = !!isNew; S.editDel = false;
   var ms = (TYPES[it.type]||{}).kind === 'ms';
-  var h = '<div class="dr-hd"><h3 id="dr-title">' + (isNew ? '블록 추가' : '블록 수정') + '</h3><button class="btn" type="button" data-dr="close">닫기</button></div>';
+  var h = '<div class="dr-hd"><h3 id="dr-title">' + (isNew ? '일정 추가' : '일정 수정') + '</h3><button class="btn" type="button" data-dr="close">닫기</button></div>';
   h += '<form class="dr-body" id="drf" novalidate>';
   h += '<div class="fld"><label for="f-title">이름</label><input id="f-title" value="' + esc(it.title) + '" required></div>';
-  h += '<div class="fld-row"><div class="fld"><label for="f-row">행</label><select id="f-row">' + ROWS.map(function(r){ return '<option value="' + r.id + '"' + (r.id === it.row ? ' selected' : '') + '>' + esc(r.label) + '</option>'; }).join('') + '</select></div>';
+  h += '<div class="fld-row"><div class="fld"><label for="f-row">구분</label><select id="f-row">' + ROWS.map(function(r){ return '<option value="' + r.id + '"' + (r.id === it.row ? ' selected' : '') + '>' + esc(r.label) + '</option>'; }).join('') + '</select></div>';
   h += '<div class="fld"><label for="f-type">종류</label><select id="f-type">' + Object.keys(TYPES).map(function(k){ return '<option value="' + k + '"' + (k === it.type ? ' selected' : '') + '>' + TYPES[k].label + '</option>'; }).join('') + '</select></div></div>';
   h += '<div class="fld-row" id="f-bar"' + (ms ? ' hidden' : '') + '><div class="fld"><label for="f-start">시작</label><input type="date" id="f-start" min="2026-10-15" max="2027-01-31" value="' + esc(it.start || it.date || '') + '"></div><div class="fld"><label for="f-end">종료</label><input type="date" id="f-end" min="2026-10-15" max="2027-01-31" value="' + esc(it.end || it.date || '') + '"></div></div>';
   h += '<div class="fld" id="f-ms"' + (ms ? '' : ' hidden') + '><label for="f-date">날짜</label><input type="date" id="f-date" min="2026-10-15" max="2027-01-31" value="' + esc(it.date || it.start || '') + '"></div>';
-  h += '<div class="fld"><label for="f-desc">설명 (무엇을 하는 블록인지)</label><textarea id="f-desc">' + esc(it.desc || '') + '</textarea></div>';
+  h += '<div class="fld"><label for="f-desc">설명</label><textarea id="f-desc">' + esc(it.desc || '') + '</textarea></div>';
   h += '<p class="err" id="f-err" aria-live="polite"></p>';
   h += '</form><div class="dr-ft"><button class="btn primary" type="button" data-dr="save">저장</button><button class="btn" type="button" data-dr="close">취소</button>';
   if (!isNew) h += '<button class="btn warn sp" type="button" data-dr="del">삭제</button>';
@@ -815,14 +897,14 @@ DRAWER.addEventListener('click', function(e){
     it.type = document.getElementById('f-type').value;
     it.desc = document.getElementById('f-desc').value.trim();
     var err = document.getElementById('f-err');
-    if (!it.title){ err.textContent = '이름을 입력해야 저장 가능.'; return; }
+    if (!it.title){ err.textContent = '이름을 입력해야 저장할 수 있음.'; return; }
     if (TYPES[it.type].kind === 'ms'){
-      var d = document.getElementById('f-date').value; if (!d){ err.textContent = '날짜를 입력해야 저장 가능.'; return; }
+      var d = document.getElementById('f-date').value; if (!d){ err.textContent = '날짜를 입력해야 저장할 수 있음.'; return; }
       it.date = clampD(d); delete it.start; delete it.end;
     } else {
       var s = document.getElementById('f-start').value, en = document.getElementById('f-end').value;
-      if (!s || !en){ err.textContent = '시작·종료 날짜를 모두 입력해야 저장 가능.'; return; }
-      if (pd(en) < pd(s)){ err.textContent = '종료일이 시작일보다 빠름.'; return; }
+      if (!s || !en){ err.textContent = '시작일과 종료일을 모두 입력해야 저장할 수 있음.'; return; }
+      if (pd(en) < pd(s)){ err.textContent = '종료일이 시작일보다 빠름. 날짜를 다시 확인할 것.'; return; }
       it.start = clampD(s); it.end = clampD(en); delete it.date;
     }
     delete it._lane; delete it._lab; delete it._out;
@@ -894,7 +976,7 @@ VIEW.addEventListener('keydown', function(e){
 function flowMap(c, interactive){
   var dom = {}; c.domains.forEach(function(d){ d.st.forEach(function(s){ (dom[s] = dom[s] || []).push(d); }); });
   function chips(s){ return (dom[s]||[]).map(function(d){ return '<span class="dm ' + d.lv + '">' + esc(d.n) + ' ' + d.w + '%</span>'; }).join(''); }
-  var h = '<div class="map"><div class="map-hd"><h3>' + esc(c.flowTitle) + '</h3><span class="ask">질문 형태: ' + esc(c.ask) + '</span></div><ol class="flow">';
+  var h = '<div class="map"><div class="map-hd"><h3>' + esc(c.flowTitle) + '</h3><span class="ask">대표 질문: ' + esc(c.ask) + '</span></div><ol class="flow">';
   c.stages.forEach(function(s, i){
     var k = String(i+1); var tag = interactive ? 'button' : 'div';
     h += '<li><' + tag + (interactive ? ' type="button" data-act="stage" data-st="' + k + '" aria-pressed="' + (S.stage === k) + '"' : '') + '><span class="num"></span><span class="sn">' + esc(s.sn) + '</span><span class="sd">' + esc(s.sd) + '</span><span class="dms">' + chips(k) + '</span></' + tag + '></li>';
@@ -911,11 +993,11 @@ function flowMap(c, interactive){
 function cmpCards(){
   return '<div class="cards">' + ['arf','ao','dv','arp'].map(function(k){
     var c = CERTS[k];
-    return '<article class="card" style="--cc:var(' + c.cc + ')"><div class="hd"><b>' + c.code + '</b><span>' + (c.owned ? '보유 · 2026-08' : c.items + '문항 · ' + c.fee) + '</span></div><dl>' +
+    return '<article class="card" style="--cc:var(' + c.cc + ')"><div class="hd"><b>' + c.code + '</b><span>' + (c.base ? '기초 시험 · ' : '') + c.fee + '</span></div><dl>' +
       '<div><dt>핵심 주제</dt><dd class="topic">' + esc(c.topic) + '</dd></div>' +
-      '<div><dt>포지션</dt><dd>' + esc(c.role) + '</dd></div>' +
+      '<div><dt>대상 직무</dt><dd>' + esc(c.role) + '</dd></div>' +
       '<div><dt>형식</dt><dd>' + esc(c.fmt) + ' · ' + c.items + '문항 · 120분</dd></div>' +
-      '<div><dt>정답 기준' + (c.owned ? '' : ' (공식 샘플)') + '</dt><dd><ul>' + c.rules.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></dd></div>' +
+      '<div><dt>정답 판단 기준</dt><dd><ul>' + c.rules.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></dd></div>' +
       '<div><dt>최대 비중 영역</dt><dd><b>' + esc(c.big) + '</b></dd></div></dl></article>';
   }).join('') + '</div>';
 }
@@ -925,7 +1007,7 @@ function matrix(){
     ['시스템 설계','에이전트 구조, 멀티에이전트, RAG, 연결 방식',['none','half','full','full']],
     ['코드·API','API 호출, SDK, 도구 정의, MCP 서버, 캐싱·배치',['none','full','half','half']],
     ['개발 도구','Claude Code, CLAUDE.md, 훅, 설정 파일',['none','half','full','half']],
-    ['사용 화면','claude.ai, Projects, 커넥터, Cowork',['full','none','none','none']]];
+    ['사용 화면','claude.ai, Projects, 커넥터, 리서치 모드',['full','none','none','none']]];
   var lab = { full:'주력', half:'일부', none:'거의 없음' };
   var h = '<div class="tw"><table class="matrix"><thead><tr><th>범위</th><th style="color:var(--c-ao)">CCAO-F</th><th style="color:var(--c-dv)">CCDV-F</th><th style="color:var(--c-arf)">CCAR-F</th><th style="color:var(--c-arp)">CCAR-P</th></tr></thead><tbody>';
   rows.forEach(function(r){ h += '<tr><td class="ly"><b>' + r[0] + '</b><span>' + r[1] + '</span></td>' + r[2].map(function(v){ return '<td class="dot"><i class="dt ' + v + '"></i><span class="sr">' + lab[v] + '</span></td>'; }).join('') + '</tr>'; });
@@ -934,23 +1016,24 @@ function matrix(){
 
 /* ---------- Guidance ---------- */
 function rGuidance(){
-  var h = '<div class="wrap narrow"><div class="sec"><div><div class="eyebrow">Cert Guidance</div><h1>시험별 안내</h1><p class="lead">시험마다 묻는 역량의 흐름, 문항 구성, 공부할 내용. 전체 비교에서 시작해 시험별 탭으로.</p></div>';
+  var h = '<div class="wrap narrow"><div class="sec"><div><div class="eyebrow">Cert Guidance</div><h1>시험별 안내</h1><p class="lead">시험별 출제 범위, 문항 구성, 공식 자료. 전체 비교 탭에서 네 시험의 차이를 보고, 시험 이름 탭에서 세부 내용 확인.</p></div>';
   h += '<div class="tabs" role="tablist">' + [['all','전체 비교']].concat(ORDER.map(function(k){ return [k, CERTS[k].code]; })).map(function(t){
     return '<button type="button" role="tab" data-act="gtab" data-t="' + t[0] + '" aria-selected="' + (S.gTab === t[0]) + '">' + (t[0] === 'all' ? t[1] : '<span class="c" style="color:' + (S.gTab === t[0] ? 'inherit' : 'var(' + CERTS[t[0]].cc + ')') + '">' + t[1] + '</span>') + '</button>';
   }).join('') + '</div></div>';
+  if (S.gTab === 'all') h += glossary();
   h += S.gTab === 'all' ? gAll() : gCert(CERTS[S.gTab]);
   return h + '</div>';
 }
-function lvLegend(){ return '<div class="lvl"><span><i style="background:var(--known)"></i>학습 완료 (CCAR-F, CCAR-P는 CCDV-F 포함)</span><span><i style="background:var(--partial)"></i>일부 학습</span><span><i style="background:var(--new)"></i>신규 학습</span></div>'; }
+function lvLegend(){ return '<div class="lvl"><span><i style="background:var(--known)"></i>' + LV.known + ' (CCAR-F 기준, CCAR-P는 CCDV-F까지 포함)</span><span><i style="background:var(--partial)"></i>' + LV.partial + '</span><span><i style="background:var(--new)"></i>' + LV.new + '</span></div>'; }
 function gAll(){
-  var h = '<div class="sec"><h2>과목별 비교</h2>' + cmpCards() + '</div>';
-  h += '<div class="sec"><div><h2>문항 구성 비교</h2><p class="howto"><b>읽는 법</b>막대 1개 = 시험 1개. 칸 = 예상 문항 수(도메인 비중 × 전체 문항, 추정). 색 = 기존 학습 대비 새로운 정도.</p></div>' + lvLegend() + '<div class="qbars">';
+  var h = '<div class="sec"><div><h2>시험별 비교</h2><p class="howto"><b>읽는 법</b>카드 1장 = 시험 1개. CCAR-F는 나머지 세 시험의 기초가 되는 시험. 정답 판단 기준 = 공식 샘플 문항에서 정답을 가른 원칙.</p></div>' + cmpCards() + '</div>';
+  h += '<div class="sec"><div><h2>문항 구성 비교</h2><p class="howto"><b>읽는 법</b>막대 1개 = 시험 1개. 칸 안 숫자 = 예상 문항 수(출제 영역 비중 × 전체 문항 수로 계산한 추정치). 색 = 이전 시험과 겹치는 정도.</p></div>' + lvLegend() + '<div class="qbars">';
   ORDER.forEach(function(k){
     var c = CERTS[k], o = lvCount(c);
-    h += '<div class="qb" style="--cc:var(' + c.cc + ')"><b>' + c.code + '</b><div class="stk">' + ['known','partial','new'].filter(function(l){ return o[l]; }).map(function(l){ return '<div class="seg ' + l + '" style="flex:' + o[l] + '" title="' + LV[l] + ' ' + o[l] + '문항">' + o[l] + '</div>'; }).join('') + '</div><span class="s">신규 ' + o.new + ' · 일부 ' + o.partial + ' · 완료 ' + o.known + ' / ' + c.items + '문항</span></div>';
+    h += '<div class="qb" style="--cc:var(' + c.cc + ')"><b>' + c.code + '</b><div class="stk">' + ['known','partial','new'].filter(function(l){ return o[l]; }).map(function(l){ return '<div class="seg ' + l + '" style="flex:' + o[l] + '" title="' + LV[l] + ' ' + o[l] + '문항">' + o[l] + '</div>'; }).join('') + '</div><span class="s">새 범위 ' + o.new + ' · 일부 ' + o.partial + ' · 겹침 ' + o.known + ' / ' + c.items + '문항</span></div>';
   });
   h += '</div></div>';
-  h += '<div class="sec"><div><h2>과목별 출제 범위</h2><p class="howto"><b>읽는 법</b>행 = Claude를 다루는 범위(위로 갈수록 조직 단위). ● 주력 · ◐ 일부 · – 거의 없음.</p></div>' + matrix() + '</div>';
+  h += '<div class="sec"><div><h2>시험별 출제 범위</h2><p class="howto"><b>읽는 법</b>행 = Claude를 다루는 범위(위로 갈수록 조직 단위). 열 = 시험. ● 주력 출제, ◐ 일부 출제, – 거의 출제 안 됨.</p></div>' + matrix() + '</div>';
   return h;
 }
 function gCert(c){
@@ -959,22 +1042,25 @@ function gCert(c){
     '<div class="tile"><div class="k">문항</div><div class="v">' + c.items + '</div></div>' +
     '<div class="tile"><div class="k">시간 · 합격선</div><div class="v">120분 · 720</div></div>' +
     '<div class="tile"><div class="k">응시료</div><div class="v">' + c.fee + '</div></div>' +
-    '<div class="tile"><div class="k">신규 학습 문항</div><div class="v">' + o.new + '<span class="muted" style="font-size:14px"> / ' + c.items + '</span></div></div>' +
-    '<div class="tile"><div class="k">가이드</div><div class="v s">' + esc(c.guide) + '</div></div></div>';
-  h += '<div class="sec"><div><h2>역량 흐름</h2><p class="howto"><b>읽는 법</b>상자 = 단계(왼쪽 → 오른쪽). 칩 = 그 단계를 다루는 출제 영역과 비중. 상자 클릭 = 아래 문항 구성에서 해당 영역만 표시.</p></div>' + flowMap(c, true);
+    '<div class="tile"><div class="k">새 범위 문항</div><div class="v">' + o.new + '<span class="muted" style="font-size:14px"> / ' + c.items + '</span></div></div>' +
+    '<div class="tile"><div class="k">시험 가이드</div><div class="v s">' + esc(c.guide) + '</div></div></div>';
+  h += '<div class="sec"><div><h2>역량 흐름</h2><p class="howto"><b>읽는 법</b>상자 = 단계(왼쪽에서 오른쪽 순서). 칩 = 그 단계에서 출제되는 영역과 비중. 상자를 누르면 아래 목록에서 해당 영역만 강조.</p></div>' + flowMap(c, true);
   if (S.stage) h += '<div><button class="btn" type="button" data-act="stage-clear">전체 영역 보기</button></div>';
   h += '</div>';
-  h += '<div class="sec"><div><h2>문항 구성 · 공부할 내용</h2><p class="howto"><b>읽는 법</b>네모 1개 = 문항 1개(비중으로 계산한 추정치). 색 = 기존 학습 대비 새로운 정도. 행 클릭 = 공식 출제 목표와 관련 강의.</p></div>' + lvLegend() + '<div class="doms">';
+  h += '<div class="sec"><div><h2>출제 영역별 문항 수</h2><p class="howto"><b>읽는 법</b>네모 1개 = 문항 1개(비중으로 계산한 추정치). 색 = 이전 시험과 겹치는 정도. 행을 누르면 공식 출제 목표와 관련 모듈이 열림.</p></div>' + lvLegend() + '<div class="doms">';
   c.domains.forEach(function(d){
     var dim = S.stage && d.st.indexOf(S.stage) < 0; var open = !!S.openDom[c.key + d.id];
-    h += '<div class="dom' + (dim ? ' dim' : '') + (open ? ' open' : '') + '"><button type="button" data-act="dom" data-d="' + d.id + '" aria-expanded="' + open + '"><span class="nm"><i style="background:var(--' + d.lv + ')"></i>' + esc(d.n) + (d.strong ? '<span class="dm tag">업무 경험</span>' : '') + '</span><span class="sq">' + Array.apply(null, Array(d.q)).map(function(){ return '<i class="' + d.lv + '"></i>'; }).join('') + '</span><span class="cnt"><b>' + d.q + '</b>문항 · ' + d.w + '%</span><span class="chev" aria-hidden="true">›</span></button>';
+    h += '<div class="dom' + (dim ? ' dim' : '') + (open ? ' open' : '') + '"><button type="button" data-act="dom" data-d="' + d.id + '" aria-expanded="' + open + '"><span class="nm"><i style="background:var(--' + d.lv + ')"></i>' + esc(d.n) + '</span><span class="sq">' + Array.apply(null, Array(d.q)).map(function(){ return '<i class="' + d.lv + '"></i>'; }).join('') + '</span><span class="cnt"><b>' + d.q + '</b>문항 · ' + d.w + '%</span><span class="chev" aria-hidden="true">›</span></button>';
     if (open){
-      h += '<div class="dom-detail"><div><h4>공식 출제 목표 (시험 가이드)</h4><ul>' + d.obj.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div><div class="modlink"><h4>관련 Prep Course 모듈</h4>' + d.mods.map(function(mi){ var m = c.modules[mi]; return '<a href="' + c.prep.url + '/' + m.slug + '" target="_blank" rel="noopener">' + esc(m.t) + '</a><span class="muted" style="font-size:12px;margin-top:-4px">' + m.min + '분</span>'; }).join('') + '<h4 style="margin-top:8px">구조도 위치</h4><span>' + d.st.map(function(s){ return esc(stName(c, s)); }).join(', ') + '</span><h4 style="margin-top:8px">학습 상태</h4><span>' + LV[d.lv] + '</span></div></div>';
+      h += '<div class="dom-detail"><div><h4>공식 출제 목표 (시험 가이드 요약)</h4><ul>' + d.obj.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div><div class="modlink"><h4>관련 Prep Course 모듈</h4>' + d.mods.map(function(mi){ var m = c.modules[mi]; return '<a href="' + c.prep.url + '/' + m.slug + '" target="_blank" rel="noopener">' + esc(m.t) + '</a><span class="muted" style="font-size:12px;margin-top:-4px">' + m.min + '분</span>'; }).join('') + '<h4 style="margin-top:8px">역량 흐름 단계</h4><span>' + d.st.map(function(s){ return esc(stName(c, s)); }).join(', ') + '</span><h4 style="margin-top:8px">이전 시험과의 관계</h4><span>' + LV[d.lv] + '</span></div></div>';
     }
     h += '</div>';
   });
   h += '</div></div>';
-  h += '<div class="sec"><h2>공식 자료</h2><div class="toolbar"><a class="btn" href="' + c.prep.url + '" target="_blank" rel="noopener">Prep Course (' + c.prep.total + ')</a><a class="btn" href="' + c.guideUrl + '" target="_blank" rel="noopener">시험 가이드 PDF</a><span class="muted" style="font-size:12.5px">' + (c.key === 'ao' ? '' : '11/17에 새 가이드로 교체 예정') + '</span></div></div>';
+  h += '<div class="sec"><h2>공식 자료</h2><div class="res">'
+    + '<div><b>시험 가이드 PDF</b><span>출제 영역, 영역별 비중, 문항 형식을 정한 공식 문서</span><em>' + esc(c.guide) + '</em><a href="' + c.guideUrl + '" target="_blank" rel="noopener">열기 ↗</a></div>'
+    + '<div><b>Prep Course</b><span>시험별 공식 준비 과정. ' + c.modules.length + '개 모듈 · ' + c.prep.total + '</span><em>시험 준비의 기본 자료</em><a href="' + c.prep.url + '" target="_blank" rel="noopener">열기 ↗</a></div>'
+    + '</div></div>';
   return h;
 }
 
@@ -983,23 +1069,27 @@ function examOf(k){ var e = null; Object.keys(S.items).forEach(function(id){ var
 function lecOf(k){ var s = null; Object.keys(S.items).forEach(function(id){ var it = S.items[id]; if (it.row === k && it.type !== 'exam' && it.type !== 'retake' && it.start && (!s || pd(it.start) < pd(s))) s = it.start; }); return s; }
 function prog(k){ var c = CERTS[k], p = S.progress[k] || {}; var m = p.mods || {}; var done = c.modules.filter(function(_, i){ return m[i]; }).length; var qd = c.qs.filter(function(q){ return p.qs && p.qs[q.id] && p.qs[q.id].done; }).length; return { done:done, total:c.modules.length, qd:qd, qt:c.qs.length, pct: Math.round(100 * (done + qd) / (c.modules.length + c.qs.length)) }; }
 function rChallenger(){
-  if (S.cTab && CERTS[S.cTab] && !CERTS[S.cTab].owned) return rCourse(CERTS[S.cTab]);
-  var h = '<div class="wrap"><div class="stage"><div class="stage-hd"><div class="eyebrow">Cert Challenger</div><h1>시험 선택</h1><p class="lead">카드 선택 = 해당 시험 학습 과정으로 이동. CCAR-F는 기존 학습 사이트로 연결.</p></div><div class="picks">';
+  if (S.cTab && CERTS[S.cTab] && !CERTS[S.cTab].base) return rCourse(CERTS[S.cTab]);
+  var h = '<div class="wrap"><div class="stage"><div class="stage-hd"><div class="eyebrow">Cert Challenger</div><h1>시험 선택</h1><p class="lead">카드를 누르면 해당 시험의 학습 과정이 열림. CCAR-F는 별도 학습 사이트로 연결.</p></div><div class="picks">';
   ['arf','ao','dv','arp'].forEach(function(k){
     var c = CERTS[k];
-    if (c.owned){
-      h += '<a class="pick" style="--cc:var(' + c.cc + ')" href="' + c.url + '" target="_blank" rel="noopener"><span class="pill done">보유</span><span class="emb">' + EMB[k] + '</span><span class="code">' + c.code + '</span><span class="nm">' + c.name + '</span><span class="role">' + esc(c.role) + '</span><span class="stats"><span class="st"><span>상태</span><span class="b"><i style="width:100%"></i></span><em>합격</em></span><span class="st"><span>유효기간</span><span class="b"><i style="width:100%"></i></span><em>27-08</em></span><span class="st"><span>점수</span><span class="b"><i style="width:' + Math.round(725/10) + '%"></i></span><em>725</em></span></span><span class="go">ccaf-academy ↗</span></a>';
+    if (c.base){
+      h += '<a class="pick" style="--cc:var(' + c.cc + ')" href="' + c.url + '" target="_blank" rel="noopener"><span class="pill done">기초 시험</span><span class="emb">' + EMB[k] + '</span><span class="code">' + c.code + '</span><span class="nm">' + c.name + '</span><span class="role">' + esc(c.role) + '</span><span class="stats">' +
+        '<span class="st"><span>문항 수</span><span class="b"><i style="width:' + Math.round(100*c.items/63) + '%"></i></span><em>' + c.items + '</em></span>' +
+        '<span class="st"><span>출제 영역</span><span class="b"><i style="width:' + Math.round(100*5/8) + '%"></i></span><em>5개</em></span>' +
+        '<span class="st"><span>학습 사이트</span><span class="b"><i style="width:100%"></i></span><em>공개</em></span>' +
+        '</span><span class="go">' + esc(c.siteName) + ' ↗</span></a>';
       return;
     }
     var o = lvCount(c), e = examOf(k), ls = lecOf(k), pr = prog(k);
     var prepDays = e && ls ? span(ls, e.date) : null;
     h += '<button type="button" class="pick" style="--cc:var(' + c.cc + ')" data-act="cert" data-c="' + k + '"><span class="pill">' + (e ? dday(e.date) : '일정 미정') + '</span><span class="emb">' + EMB[k] + '</span><span class="code">' + c.code + '</span><span class="nm">' + c.name + '</span><span class="role">' + esc(c.role) + '</span><span class="stats">' +
-      '<span class="st"><span>신규 학습</span><span class="b"><i style="width:' + Math.round(100*o.new/c.items) + '%"></i></span><em>' + o.new + '문항</em></span>' +
       '<span class="st"><span>문항 수</span><span class="b"><i style="width:' + Math.round(100*c.items/63) + '%"></i></span><em>' + c.items + '</em></span>' +
+      '<span class="st"><span>새 범위</span><span class="b"><i style="width:' + Math.round(100*o.new/c.items) + '%"></i></span><em>' + o.new + '문항</em></span>' +
       '<span class="st"><span>진행률</span><span class="b"><i style="width:' + pr.pct + '%"></i></span><em>' + pr.pct + '%</em></span>' +
       '</span><span class="go">' + (e ? md(e.date) + ' 시험' + (prepDays ? ' · 준비 ' + prepDays + '일' : '') : '학습 시작') + ' →</span></button>';
   });
-  h += '</div><p class="howto" style="text-align:center;margin-left:auto;margin-right:auto"><b>읽는 법</b>신규 학습 = 기존 학습(CCAR-F 등)에 없는 영역의 예상 문항 수. 진행률 = 완료한 모듈 + 푼 연습 문제 비율. 시험일은 Cert Scheduler 일정 기준.</p></div></div>';
+  h += '</div><p class="howto" style="text-align:center;margin-left:auto;margin-right:auto"><b>읽는 법</b>새 범위 = CCAR-F(CCAR-P는 CCDV-F까지)에서 다루지 않은 영역의 예상 문항 수. 진행률 = 완료 표시한 모듈과 푼 샘플 문제의 비율. D-day와 준비 기간은 Cert Scheduler 일정 기준.</p></div></div>';
   return h;
 }
 function lesList(m){
@@ -1015,19 +1105,19 @@ function rCourse(c){
   var h = '<div class="wrap narrow" style="--cc:var(' + c.cc + ')"><div><button class="btn" type="button" data-act="cert-back">← 시험 선택</button></div>';
   h += '<div class="course-hd"><span class="emb">' + EMB[k] + '</span><div class="ti"><b>' + c.code + '</b><span>' + c.name + ' · ' + esc(c.topic) + '</span><div class="meta"><span>' + (e ? '시험 ' + md(e.date) + '(' + wd(e.date) + ') · ' + dday(e.date) : '시험일 미정') + '</span><span>' + c.items + '문항 · 120분 · ' + c.fee + '</span><span>' + esc(c.guide) + '</span></div></div><div class="prog"><span>진행률 ' + pr.pct + '% · 모듈 ' + pr.done + '/' + pr.total + ' · 문제 ' + pr.qd + '/' + pr.qt + '</span><div class="b"><i style="width:' + pr.pct + '%"></i></div></div></div>';
 
-  if (c.site) h += '<div class="sec"><div class="toolbar"><a class="btn" style="border-color:var(--cc);color:var(--cc);font-weight:600" href="' + c.site + '" target="_blank" rel="noopener">' + c.siteName + '에서 학습 ↗</a><span class="muted" style="font-size:12.5px">영역별 레슨, 영어 연습 문제, 60문항 모의고사가 있는 학습 사이트</span></div></div>';
+  if (c.site) h += '<div class="sec"><div class="toolbar"><a class="btn" style="border-color:var(--cc);color:var(--cc);font-weight:600" href="' + c.site + '" target="_blank" rel="noopener">' + c.siteName + '에서 학습 ↗</a><span class="muted" style="font-size:12.5px">출제 영역별 레슨, 영어 연습 문제, 60문항 모의고사를 제공하는 학습 사이트</span></div></div>';
   h += '<div class="sec"><h2 class="sm">공식 준비 순서</h2><div class="order">'
-    + '<div><span class="on">1</span><b>시험 가이드 PDF</b><span>출제 범위의 기준</span><a href="' + c.guideUrl + '" target="_blank" rel="noopener">열기 ↗</a></div>'
-    + '<div><span class="on">2</span><b>Prep Course · 필수</b><span>' + c.modules.length + '개 모듈 · ' + c.prep.total + '</span><a href="' + c.prep.url + '" target="_blank" rel="noopener">열기 ↗</a></div>'
-    + '<div><span class="on">3</span><b>기초 강좌 · 선택</b><span>' + c.basics.map(function(b){ return '<a href="' + P + b[1] + '" target="_blank" rel="noopener">' + esc(b[0]) + '</a> <em>' + esc(b[2]) + '</em>'; }).join('<br>') + '</span></div>'
-    + '<div><span class="on">4</span><b>시험 등록</b><span>결제 → 이메일의 Pearson 링크 → 날짜 예약. 등록은 5년 유효</span><a href="' + c.reg + '" target="_blank" rel="noopener">등록 페이지 ↗</a></div>'
-    + '</div><p class="howto"><b>읽는 법</b>Learning Path(직무별 기초 과정)는 CCAR-F로 대부분 이미 학습한 범위라 전체 수강 불필요. 3번 목록만 골라 듣기. 페이지 하단 Go deeper 튜토리얼도 같은 기준.</p></div>';
+    + '<div><span class="on">1</span><b>시험 가이드 PDF</b><span>출제 영역과 비중을 정한 공식 문서</span><a href="' + c.guideUrl + '" target="_blank" rel="noopener">열기 ↗</a></div>'
+    + '<div><span class="on">2</span><b>Prep Course · 핵심 자료</b><span>' + c.modules.length + '개 모듈 · ' + c.prep.total + '</span><a href="' + c.prep.url + '" target="_blank" rel="noopener">열기 ↗</a></div>'
+    + '<div><span class="on">3</span><b>보조 강좌 · 선택</b><span>' + c.basics.map(function(b){ return '<a href="' + P + b[1] + '" target="_blank" rel="noopener">' + esc(b[0]) + '</a> <em>' + esc(b[2]) + '</em>'; }).join('<br>') + '</span></div>'
+    + '<div><span class="on">4</span><b>시험 등록</b><span>등록 페이지에서 결제 → 이메일로 받은 Pearson VUE(시험 대행사) 링크에서 날짜 예약. 등록 후 5년간 유효</span><a href="' + c.reg + '" target="_blank" rel="noopener">등록 페이지 ↗</a></div>'
+    + '</div><p class="howto"><b>읽는 법</b>1·2·4번은 모든 응시자 공통. Learning Path(직무별 기초 과정)는 Prep Course와 범위가 많이 겹침. CCAR-F를 준비해 본 경우 3번 목록만 골라 들어도 충분. Prep Course 페이지 하단 Go deeper 튜토리얼도 같은 기준으로 선택.</p></div>';
 
-  h += '<div class="sec"><div class="steps-h"><span class="n">1</span><h2>구조도</h2></div><p class="howto"><b>읽는 법</b>모든 문제는 이 흐름의 한 단계에서 나옴. 모듈·문제마다 위치를 먼저 확인.</p>' + flowMap(c, false) + '</div>';
+  h += '<div class="sec"><div class="steps-h"><span class="n">1</span><h2>역량 흐름</h2></div><p class="howto"><b>읽는 법</b>모든 문항은 이 흐름의 한 단계 상황에서 출제됨. 모듈을 듣거나 문제를 풀 때 해당 단계를 먼저 확인.</p>' + flowMap(c, false) + '</div>';
 
   h += '<div class="sec"><div class="steps-h"><span class="n">2</span><h2>모듈 학습</h2></div>';
-  h += '<p class="howto"><b>모듈 형식</b>' + (k === 'ao' ? '영상이 아니라 화면을 넘기며 읽는 자료 + 연습 + 퀴즈. "화면" 1개 = 읽기 페이지 1장.' : 'AO와 같은 화면형 자료. 섹션마다 확인 문제(Checkpoint), 끝에 종합 과제(Cumulative Task) 또는 연습. "화면" 1개 = 읽기 페이지 1장.') + '</p>';
-  h += '<div class="routine"><div><b>위치 확인</b>구조도에서 모듈 단계와 앞뒤 단계</div><div><b>모듈 수강</b>40~60분 단위로 끊기</div><div><b>구조도에 붙이기</b>판단 기준 3개 + 신규 용어 정리</div><div><b>문제 5개</b>단계부터 표시 후 풀이</div></div>';
+  h += '<p class="howto"><b>모듈 형식</b>' + (k === 'ao' ? '화면을 넘기며 읽는 자료, 연습, 퀴즈로 구성. 영상 강의 없음. "화면" 1개 = 읽기 페이지 1장.' : 'CCAO-F와 같은 화면형 자료. 섹션마다 확인 문제(Checkpoint), 끝에 종합 과제(Cumulative Task) 또는 연습. "화면" 1개 = 읽기 페이지 1장.') + '</p>';
+  h += '<p class="howto"><b>학습 루틴</b>모듈마다 아래 4단계 반복.</p><div class="routine"><div><b>1. 단계 확인</b>역량 흐름에서 모듈이 다루는 단계와 앞뒤 단계 확인</div><div><b>2. 모듈 수강</b>40~60분 단위로 끊어서 수강</div><div><b>3. 정리</b>정답을 가르는 판단 기준 3개와 새 용어 정리</div><div><b>4. 문제 5개</b>단계를 먼저 고른 뒤 풀이</div></div>';
   h += '<div class="mods">';
   c.modules.forEach(function(md_, i){
     var done = !!m[i];
@@ -1035,11 +1125,11 @@ function rCourse(c){
   });
   h += '</div></div>';
 
-  h += '<div class="sec"><div class="steps-h"><span class="n">3</span><h2>문제 연습 (샘플)</h2></div><p class="howto"><b>푸는 순서</b>① 구조도 몇 단계 이야기인지 고르기 → ② 답 고르기 → ③ 해설. 문제는 실제 시험처럼 영어, 해설은 한국어. 정식 문제 풀은 ' + (k === 'ao' ? '11/2까지' : '11/17 새 가이드 이후') + ' 추가.</p><div class="qs">';
+  h += '<div class="sec"><div class="steps-h"><span class="n">3</span><h2>샘플 문제</h2></div><p class="howto"><b>푸는 순서</b>① 문제가 역량 흐름의 몇 단계 상황인지 고르기 → ② 답 고르기 → ③ 해설 확인. 문제는 실제 시험처럼 영어, 해설은 한국어. ' + esc(c.qsNote || '정식 연습 문제는 11/17 새 가이드 공개 후 추가 예정.') + '</p><div class="qs">';
   c.qs.forEach(function(q, qi){
     var st = (p.qs && p.qs[q.id]) || {}; var L = S.q[q.id] || st;
     h += '<div class="q"><span class="qn">Q' + (qi+1) + '</span><p class="stem">' + esc(q.stem) + '</p>';
-    h += '<div class="ph">① 구조도 위치</div><div class="chips">';
+    h += '<div class="ph">① 역량 흐름 단계</div><div class="chips">';
     var stOpts = ['1','2','3','4','5'].concat(c.loop ? ['loop'] : []).concat(['across']);
     stOpts.forEach(function(s){
       var cls = '';
@@ -1048,7 +1138,7 @@ function rCourse(c){
     });
     h += '</div>';
     if (L.stage){
-      h += '<div class="fb">' + (L.stage === q.st ? '<b class="ok">위치 정확.</b> ' : '<b class="no">위치 다름.</b> 정답: ' + esc(stName(c, q.st)) + '. ') + esc(q.stWhy) + '</div>';
+      h += '<div class="fb">' + (L.stage === q.st ? '<b class="ok">단계 정답.</b> ' : '<b class="no">단계 오답.</b> 정답: ' + esc(stName(c, q.st)) + '. ') + esc(q.stWhy) + '</div>';
       h += '<div class="ph">② 답 선택</div><div class="opts">';
       q.opts.forEach(function(op, oi){
         var cls = ''; if (L.ans != null){ if (oi === q.ok) cls = 'ok'; else if (oi === L.ans) cls = 'no'; }
@@ -1064,7 +1154,7 @@ function rCourse(c){
   });
   h += '</div></div>';
 
-  h += '<div class="sec"><div class="steps-h"><span class="n">4</span><h2>모의고사</h2></div><div class="lock"><b>' + c.items + '문항 · 120분</b><span>문제 풀 완성 후 열림. 실제 시험처럼 답해야 다음 문항 진행, 종료 후 도메인별 성적표.</span><span class="mono">' + (k === 'ao' ? '예정: 11/6' : (k === 'dv' ? '예정: 12/1' : '예정: 12/28')) + '</span></div></div>';
+  h += '<div class="sec"><div class="steps-h"><span class="n">4</span><h2>모의고사</h2></div><div class="lock"><b>' + c.items + '문항 · 120분</b>' + (c.mockNote && c.site ? '<span>' + esc(c.mockNote) + '</span><a href="' + c.site + '" target="_blank" rel="noopener">' + esc(c.siteName) + ' 열기 ↗</a>' : '<span>연습 문제 완성 후 공개. 실제 시험처럼 한 문항씩 진행하고, 끝나면 출제 영역별 점수 표시.</span><span class="mono">공개 예정: ' + (k === 'dv' ? '12/1' : '12/28') + '</span>') + '</div></div>';
   return h + '</div>';
 }
 
@@ -1076,9 +1166,11 @@ document.querySelector('.nav').addEventListener('click', function(e){
   render(); window.scrollTo(0, 0);
 });
 VIEW.addEventListener('click', function(e){
+  var li = e.target.closest('[data-item-row]'); if (li){ openEditor(li.dataset.itemRow); return; }
   var b = e.target.closest('[data-act]'); if (!b) return;
   var a = b.dataset.act;
   if (a === 'add'){ openEditor(null, true); return; }
+  if (a === 'listby'){ S.listBy = b.dataset.v === 'type' ? 'type' : 'cert'; try { localStorage.setItem('certhub_listby', S.listBy); } catch(_){} render(); return; }
   if (a === 'reset'){ S.confirmReset = true; render(); return; }
   if (a === 'reset-cancel'){ S.confirmReset = false; render(); return; }
   if (a === 'reset-go'){ S.confirmReset = false; render(); resetToBaseline(); return; }
