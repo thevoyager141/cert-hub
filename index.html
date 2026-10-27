@@ -59,17 +59,20 @@ p{margin:0}
 
 /* timeline */
 .tl{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px 10px}
-.tl-track{position:relative;height:96px}
+.tl-track{position:relative;height:128px}
 .tl-m{position:absolute;bottom:0;font-family:var(--mono);font-size:11px;color:var(--faint);transform:translateX(-50%);white-space:nowrap}
 .tl-axis{position:absolute;left:0;right:0;bottom:20px;border-top:1px solid var(--line)}
 .tl-tick{position:absolute;bottom:16px;height:8px;border-left:1px solid var(--line)}
-.tl-mk{position:absolute;top:0;bottom:20px;border-left:1.5px dashed var(--faint)}
+.tl-mk{position:absolute;top:18px;bottom:20px;border-left:1.5px dashed var(--faint)}
 .tl-mk span{position:absolute;bottom:2px;left:4px;font-size:10.5px;color:var(--faint);white-space:nowrap}
 .tl-mk.l span{left:auto;right:4px}
-.tl-today{position:absolute;top:0;bottom:20px;border-left:2px solid var(--muted)}
-.tl-ex{position:absolute;display:flex;align-items:center;gap:6px;transform:translateX(-5px);white-space:nowrap;font-size:12px;font-weight:600;color:var(--cc)}
-.tl-ex i{width:10px;height:10px;border-radius:50%;background:var(--cc);flex:none}
-.tl-ex.r{transform:translateX(calc(-100% + 5px));flex-direction:row-reverse}
+.tl-today{position:absolute;top:18px;bottom:20px;border-left:2px solid var(--fg)}
+.tl-today span{position:absolute;top:-18px;left:0;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--fg);white-space:nowrap}
+.tl-ex{position:absolute;display:flex;align-items:center;gap:6px;transform:translateX(-7px);white-space:nowrap;font-size:12px;font-weight:600;color:var(--cc);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;padding:2px 0;border-radius:4px}
+.tl-ex:hover i,.tl-ex:focus-visible i,.tl-ex.drag i{box-shadow:0 0 0 4px color-mix(in srgb, var(--cc) 30%, transparent)}
+.tl-ex.drag{cursor:grabbing;z-index:5}
+.tl-ex i{width:14px;height:14px;border-radius:50%;background:var(--cc);flex:none;border:2px solid var(--panel)}
+.tl-ex.r{transform:translateX(calc(-100% + 7px));flex-direction:row-reverse}
 
 /* exam cards */
 .exams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -194,27 +197,28 @@ function pos(s){ var t = Math.min(Math.max(pd(s), pd(R0)), pd(R1)); return 100 *
 function sorted(){ return EXAMS.slice().sort(function(a, b){ return pd(examDate(a.k)) - pd(examDate(b.k)); }); }
 
 function timeline(list){
-  var h = '<div class="tl" role="img" aria-label="응시일 타임라인"><div class="tl-track">';
+  var h = '<div class="tl" role="group" aria-label="응시일 타임라인"><div class="tl-track" id="tlTrack">';
   [['2026-11-01','11월'],['2026-12-01','12월'],['2027-01-01','1월'],['2027-02-01','2월'],['2027-03-01','3월']].forEach(function(m){
     h += '<div class="tl-tick" style="left:' + pos(m[0]) + '%"></div><div class="tl-m" style="left:' + pos(m[0]) + '%">' + m[1] + '</div>';
   });
   h += '<div class="tl-axis"></div>';
   h += '<div class="tl-mk l" style="left:' + pos(GUIDE_DAY) + '%"><span>11/17 가이드</span></div>';
   h += '<div class="tl-mk" style="left:' + pos(REVAMP_DAY) + '%"><span>12/7 개편</span></div>';
-  var td = today(); if (pd(td) >= pd(R0) && pd(td) <= pd(R1)) h += '<div class="tl-today" style="left:' + pos(td) + '%" title="오늘"></div>';
+  var td = today(); if (pd(td) >= pd(R0) && pd(td) <= pd(R1)) h += '<div class="tl-today" style="left:' + pos(td) + '%"><span>오늘 ' + md(td) + '</span></div>';
   list.forEach(function(e, i){
     var d = examDate(e.k), x = pos(d);
-    h += '<div class="tl-ex' + (x > 70 ? ' r' : '') + '" style="--cc:var(' + e.cc + ');left:' + x + '%;top:' + (i * 22) + 'px"><i></i>' + e.code + ' ' + md(d) + '</div>';
+    h += '<div class="tl-ex' + (x > 70 ? ' r' : '') + '" data-k="' + e.k + '" tabindex="0" role="slider" aria-label="' + e.code + ' 응시일. 좌우 화살표로 하루씩, Shift와 함께 누르면 일주일씩 이동" aria-valuetext="' + md(d) + '(' + wd(d) + ')" style="--cc:var(' + e.cc + ');left:' + x + '%;top:' + (20 + i * 24) + 'px"><i></i><span>' + e.code + ' ' + md(d) + '</span></div>';
   });
-  return h + '</div></div><p class="howto"><b>읽는 법</b>가로축 = 날짜. 점 = 응시일. 점선 = 새 가이드 공개(11/17)와 시험 개편(12/7). 굵은 세로선 = 오늘.</p>';
+  return h + '</div></div><p class="howto"><b>읽는 법</b>가로축 = 날짜. 점 = 응시일. 점을 좌우로 끌면 응시일 변경. 점선 = 새 가이드 공개(11/17)와 시험 개편(12/7). 굵은 세로선 = 오늘.</p>';
 }
 
 function render(){
+  if (DRAG) return;
   var list = sorted();
   var h = '<div class="sec"><div><h1>시험 일정과 학습 자료</h1><p class="lead">시험별 응시일을 정하고, 시점에 맞는 공식 강좌와 학습 자료를 한곳에서 확인하는 페이지.</p></div>';
   h += '<div class="notice"><b>12/7 시험 개편</b>CCAO-F, CCDV-F, CCAR-P는 12/7부터 새 내용으로 출제됨. 12/7 이후 응시하면 11/17 공개되는 새 시험 가이드로 준비해야 함 (Anthropic 공식 안내).</div></div>';
 
-  h += '<div class="sec"><div><h2>응시 일정</h2><p class="howto"><b>사용법</b>카드의 날짜를 바꾸면 D-day, 재응시 가능일, 아래 자료 순서가 함께 바뀜.' + (S.local ? ' 설정은 이 브라우저에만 저장됨.' : '') + '</p></div>';
+  h += '<div class="sec"><div><h2>응시 일정</h2><p class="howto"><b>사용법</b>타임라인의 점을 끌거나 카드의 날짜를 바꾸면 D-day, 재응시 가능일, 아래 자료 순서가 함께 바뀜.' + (S.local ? ' 설정은 이 브라우저에만 저장됨.' : '') + '</p></div>';
   h += timeline(list);
   h += '<div class="exams">' + list.map(function(e){
     var d = examDate(e.k), after = pd(d) >= pd(REVAMP_DAY);
@@ -252,6 +256,46 @@ VIEW.addEventListener('change', function(e){
     if (t.checked) c.done[t.dataset.id] = true; else delete c.done[t.dataset.id];
     persist('checks', k, c); render();
   }
+});
+
+/* 타임라인 점 끌기: 놓는 순간 저장 */
+var DRAG = null;
+function dateAt(clientX, rect){
+  var f = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+  return fd(pd(R0) + Math.round(f * (pd(R1) - pd(R0)) / DAY) * DAY);
+}
+function setExamDate(k, d){ S.ex[k] = { date:d }; persist('exams', k, S.ex[k]); }
+VIEW.addEventListener('pointerdown', function(e){
+  var el = e.target.closest('.tl-ex'); if (!el || e.button > 0) return;
+  var tr = document.getElementById('tlTrack'); if (!tr) return;
+  DRAG = { k:el.dataset.k, el:el, rect:tr.getBoundingClientRect(), date:examDate(el.dataset.k), moved:false };
+  try { el.setPointerCapture(e.pointerId); } catch(_){}
+  el.classList.add('drag'); e.preventDefault();
+});
+window.addEventListener('pointermove', function(e){
+  var g = DRAG; if (!g) return;
+  var d = dateAt(e.clientX, g.rect); if (d === g.date) return;
+  g.date = d; g.moved = true;
+  var x = pos(d); g.el.style.left = x + '%'; g.el.classList.toggle('r', x > 70);
+  g.el.querySelector('span').textContent = BYK[g.k].code + ' ' + md(d) + '(' + wd(d) + ')';
+  g.el.setAttribute('aria-valuetext', md(d) + '(' + wd(d) + ')');
+});
+function endDrag(){
+  var g = DRAG; if (!g) return; DRAG = null;
+  if (g.moved) setExamDate(g.k, g.date);
+  render();
+  if (g.moved){ var again = VIEW.querySelector('.tl-ex[data-k="' + g.k + '"]'); if (again) again.focus({ preventScroll:true }); }
+}
+window.addEventListener('pointerup', endDrag);
+window.addEventListener('pointercancel', endDrag);
+VIEW.addEventListener('keydown', function(e){
+  var el = e.target.closest && e.target.closest('.tl-ex'); if (!el) return;
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  e.preventDefault();
+  var k = el.dataset.k, step = (e.key === 'ArrowLeft' ? -1 : 1) * (e.shiftKey ? 7 : 1);
+  var d = addD(examDate(k), step); if (pd(d) < pd(R0) || pd(d) > pd(R1)) return;
+  setExamDate(k, d); render();
+  var again = VIEW.querySelector('.tl-ex[data-k="' + k + '"]'); if (again) again.focus();
 });
 
 function init(){
