@@ -14,6 +14,7 @@
   --bg:#121116; --panel:#1b1a20; --panel-2:#23222a; --line:#302e38;
   --fg:#ecebef; --muted:#a3a0ac; --faint:#76737f;
   --accent:#e0805f; --accent-soft:rgba(224,128,95,.12); --accent-ink:#f0a184; --on-accent:#1a1210;
+  --now:#5cb87f; --now-ink:#7fd09d; --now-soft:rgba(92,184,127,.12); --later:#e0805f; --later-ink:#f0a184; --later-soft:rgba(224,128,95,.12);
   --c-ao:#5fbfa9; --c-dv:#86a2f2; --c-arp:#e3ad62;
   --font:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -23,7 +24,7 @@
   :root:not([data-theme="dark"]){
     --bg:#f5f4f1; --panel:#ffffff; --panel-2:#efede8; --line:#dfdcd5;
     --fg:#1c1a1f; --muted:#5d5a64; --faint:#86838c;
-    --accent:#bf5835; --accent-soft:rgba(191,88,53,.08); --accent-ink:#a2442a; --on-accent:#ffffff;
+    --accent:#bf5835; --accent-soft:rgba(191,88,53,.08); --accent-ink:#a2442a; --on-accent:#ffffff; --now:#2f8a55; --now-ink:#236b41; --now-soft:rgba(47,138,85,.08); --later:#bf5835; --later-ink:#a2442a; --later-soft:rgba(191,88,53,.07);
     --c-ao:#24806e; --c-dv:#4565c9; --c-arp:#a8691a;
     color-scheme:light;
   }
@@ -31,7 +32,7 @@
 :root[data-theme="light"]{
   --bg:#f5f4f1; --panel:#ffffff; --panel-2:#efede8; --line:#dfdcd5;
   --fg:#1c1a1f; --muted:#5d5a64; --faint:#86838c;
-  --accent:#bf5835; --accent-soft:rgba(191,88,53,.08); --accent-ink:#a2442a; --on-accent:#ffffff;
+  --accent:#bf5835; --accent-soft:rgba(191,88,53,.08); --accent-ink:#a2442a; --on-accent:#ffffff; --now:#2f8a55; --now-ink:#236b41; --now-soft:rgba(47,138,85,.08); --later:#bf5835; --later-ink:#a2442a; --later-soft:rgba(191,88,53,.07);
   --c-ao:#24806e; --c-dv:#4565c9; --c-arp:#a8691a;
   color-scheme:light;
 }
@@ -116,6 +117,28 @@ p{margin:0}
 .mi .w.now{color:var(--fg);font-weight:600}
 .mi.done .t,.mi.done .d{opacity:.5}
 .mi.done .t a{text-decoration-color:var(--faint)}
+.mi.has{cursor:pointer}
+.mi.has:hover{background:var(--panel-2)}
+.mi .w.now{color:var(--now-ink)}
+.mi .w.later{color:var(--later-ink)}
+.cur-tg{margin-top:6px;border:1px solid var(--line);background:var(--panel-2);border-radius:99px;padding:2px 10px;font:inherit;font-size:12px;color:var(--fg);cursor:pointer}
+.cur-tg:hover{border-color:var(--muted)}
+.cur-tg .n{color:var(--now-ink);font-weight:600}
+.cur-tg .l{color:var(--later-ink);font-weight:600}
+.cur{grid-column:2 / -1;border-top:1px dashed var(--line);margin-top:6px;padding-top:4px}
+.cur-sec{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;margin:12px 0 6px}
+.cur-sec b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint);font-weight:600}
+.cur-sec span{font-size:12px;color:var(--muted)}
+.ci{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 12px;padding:7px 10px;border-left:3px solid var(--st);background:var(--panel-2);border-radius:0 6px 6px 0;margin-bottom:4px;align-items:start}
+.ci.now{--st:var(--now)} .ci.later{--st:var(--later)}
+.ci .ct{font-size:13px;font-weight:600}
+.ci .ct a{color:var(--fg);text-decoration-color:var(--faint)}
+.ci .cm{font-size:12px;color:var(--faint);font-weight:500;margin-left:6px}
+.ci .cd{font-size:12px;color:var(--muted)}
+.chip{font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap;border:1px solid var(--st);color:var(--st-ink)}
+.chip.now{--st:var(--now);--st-ink:var(--now-ink);background:var(--now-soft)}
+.chip.later{--st:var(--later);--st-ink:var(--later-ink);background:var(--later-soft)}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);align-items:center}
 
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:20px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:12px;color:var(--faint)}
@@ -128,6 +151,9 @@ footer a{color:var(--muted)}
   .exams{grid-template-columns:minmax(0,1fr)}
   .mi{grid-template-columns:22px minmax(0,1fr)}
   .mi .w{grid-column:2;text-align:left;padding-top:0}
+  .cur{grid-column:1 / -1}
+  .ci{grid-template-columns:minmax(0,1fr)}
+  .ci .chip{justify-self:start}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -173,23 +199,138 @@ var EXAMS = [
 ];
 var BYK = {}; EXAMS.forEach(function(e){ BYK[e.k] = e; });
 function guideItem(e){ return { id:'guide', t:'시험 가이드 (새 버전)', d:'출제 영역과 영역별 비중을 정한 공식 문서. 시험 페이지에서 내려받음', w:'11/17 공개', u:e.reg }; }
+/* 공식 학습 경로·Prep Course 커리큘럼 (Partner Academy, 2026-10-27 확인). later = 11/17 새 가이드 공개 후 수강 */
+var AC = 'https://academy.claude.com/';
+function N(t, m, d, u){ return { t:t, m:m, d:d, u:u, later:false }; }
+function L(t, m, d, u, tag){ return { t:t, m:m, d:d, u:u, later:true, tag:tag }; }
+var PA = P + 'path/claude-associate/', PD = P + 'path/claude-developer/', PR = P + 'path/claude-architect/';
+var PAO = P + 'path/claude-certified-associate-foundations/', PDV = P + 'path/claude-certified-developer-foundations/', PAR = P + 'path/claude-certified-architect-professional/';
+var CORE_FDN = function(base){ return L('Claude Platform and Model Foundations', '59분', 'Claude를 쓸 수 있는 곳, 곳별 기능, 모델·컨텍스트 선택', base + 'claude-platform-model-foundations', 'CCAO-F Prep Course 1번 모듈과 같은 강좌'); };
+var CHOOSE = N('Choosing the right Claude model', '약 10분 · Claude Academy', '모델별 강점과 사용량 차이', AC + 'tutorials/choosing-the-right-claude-model');
+var CTX_TUT = N('How context affects Claude’s performance and cost', '짧은 튜토리얼 · Claude Academy', '컨텍스트가 성능과 비용에 주는 영향', AC + 'tutorials/parametric-memory-and-context');
+var CUR = {
+  'ao:path': [
+    { s:'CORE', n:'필수', c:[
+      N('AI Capabilities and Limitations', '약 60분', 'Claude가 잘하는 일과 실수하는 지점, 그 이유', PA + 'ai-capabilities-and-limitations'),
+      N('Claude 101', '약 60분', '첫 대화부터 Projects, 아티팩트, 스킬, 커넥터, Research까지', PA + 'claude-101'),
+      CORE_FDN(PA), CHOOSE ] },
+    { s:'WORKING WITH CLAUDE DAY TO DAY', n:'일상 업무 활용', c:[
+      L('Prompting and Task Execution', '53분', '반복해 쓸 수 있는 프롬프트 구조', PA + 'prompting-task-execution', 'Prep Course 2번 모듈'),
+      L('Evaluating and Validating Claude’s Output', '74분', '결과를 쓰기 전 정확성·완결성 점검', PA + 'evaluating-validating-claudes-output', 'Prep Course 3번 모듈'),
+      N('Introduction to Claude Cowork', '약 60분', '여러 단계 작업 맡기기, 예약 작업, 스킬·플러그인, 안전한 사용', PA + 'introduction-to-claude-cowork') ] },
+    { s:'FINDING A USE CASE AND USING IT RESPONSIBLY', n:'활용 사례 찾기·책임 있는 사용', c:[
+      L('Workflow Integration and Solution Design', '63분', '개인 사용에서 팀 업무 흐름으로 옮기는 방법', PA + 'workflow-integration-solution-design', 'Prep Course 4번 모듈'),
+      L('Governance, Risk and Responsible Use', '55분', '어디에 어떤 데이터를 넣어도 되는지, 일상 판단 기준', PA + 'governance-risk-responsible-use', 'Prep Course 6번 모듈') ] },
+    { s:'YOUR FUNCTION', n:'직무별', c:[
+      N('Claude for your function', '약 30분 · Claude Academy', '마케팅·재무·법무·HR 등 직무별 사용 사례', AC + 'use-cases') ] },
+    { s:'GO DEEPER', n:'선택', c:[
+      L('Configuration and Knowledge Management', '47분', 'Projects 지시문과 지식 자료로 결과를 일정하게', PAO + 'configuration-knowledge-management', 'Prep Course 5번 모듈'),
+      L('Troubleshooting and Optimization', '30분', '약한 결과의 원인을 찾아 고치는 방법', PAO + 'troubleshooting-optimization', 'Prep Course 7번 모듈'),
+      N('AI Fluency: Framework and foundations', '15개 레슨', '위임·설명·판단·검증 4가지 역량과 프롬프트 기초', P + 'ai-fluency-framework-foundations'),
+      N('Scaling workflows with Claude Cowork at your organization', '짧은 튜토리얼 · Claude Academy', '조직 단위 Cowork 활용', AC + 'tutorials/scaling-workflows-with-claude-cowork-at-your-organization'),
+      N('Teach Claude your way of working using skills', '짧은 튜토리얼 · Claude Academy', '스킬로 내 작업 방식 가르치기', AC + 'tutorials/teach-claude-your-way-of-working-using-skills'),
+      N('Customize Claude Cowork', '짧은 튜토리얼 · Claude Academy', 'Cowork 설정 바꾸기', AC + 'tutorials/customize-claude-cowork'),
+      N('Choosing between Claude Cowork or Chat', '짧은 튜토리얼 · Claude Academy', 'Cowork와 채팅 중 고르는 기준', AC + 'tutorials/choosing-between-claude-cowork-or-chat'),
+      N('Getting started with connectors', '짧은 튜토리얼 · Claude Academy', '커넥터 연결 기초', AC + 'tutorials/getting-started-with-connectors'),
+      N('Intro to Projects', '짧은 튜토리얼 · Claude Academy', 'Projects 기초', AC + 'tutorials/intro-to-projects'),
+      N('Using Research', '짧은 튜토리얼 · Claude Academy', 'Research 기능 사용법', AC + 'tutorials/using-research') ] }
+  ],
+  'ao:prep': [
+    { s:'PREP COURSE', n:'8개 모듈', c:[
+      L('Claude Platform & Model Foundations', '59분', '접속 경로·기능·모델·컨텍스트 선택', PAO + 'claude-platform-model-foundations', '1번'),
+      L('Prompting & Task Execution', '53분', '프롬프트 구성, 작업 분해, 반복 수정', PAO + 'prompting-task-execution', '2번'),
+      L('Evaluating & Validating Claude’s Output', '74분', '정확성 평가, 환각 찾기, 사람 검토 시점. 최대 비중 영역', PAO + 'evaluating-validating-claudes-output', '3번'),
+      L('Workflow Integration & Solution Design', '63분', '요구사항 분석, 위임할 단계 정하기, 가치·한계 설명', PAO + 'workflow-integration-solution-design', '4번'),
+      L('Configuration & Knowledge Management', '47분', 'Projects 지시문·지식·커넥터 설정과 유지', PAO + 'configuration-knowledge-management', '5번'),
+      L('Governance, Risk & Responsible Use', '55분', '데이터 민감도, 조직 정책, 윤리적 영향', PAO + 'governance-risk-responsible-use', '6번'),
+      L('Troubleshooting & Optimization', '30분', '성능 낮은 프롬프트·결과 진단과 개선', PAO + 'troubleshooting-optimization', '7번'),
+      L('Course Summary & Next Steps', '8분', '7개 역량 연결 정리', PAO + 'course-summary-next-steps', '8번') ] }
+  ],
+  'dv:path': [
+    { s:'CORE', n:'필수', c:[
+      N('AI Capabilities and Limitations', '약 60분', '모델이 그렇게 동작하는 이유: 예측, 지식, 작업 기억, 컨텍스트 한계', PD + 'ai-capabilities-and-limitations'),
+      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 위임·설명·판단·검증', PD + 'ai-fluency-for-builders'),
+      CORE_FDN(PD), CHOOSE ] },
+    { s:'ROLE COURSES', n:'개발자 강좌', c:[
+      N('Claude Platform 101', '약 90분', 'API 첫 호출부터 에이전트 루프, 도구 사용, MCP, 관리형 에이전트까지', PD + 'claude-platform-101'),
+      N('Claude Code 101', '약 60분', '설치, 탐색→계획→코딩→커밋 흐름, CLAUDE.md, 훅', PD + 'claude-code-101'),
+      N('Claude Code in action', '약 60분', '긴 작업 세션, 권한 모드, 훅, headless 실행, GitHub Actions', PD + 'claude-code-in-action'),
+      N('Introduction to Model Context Protocol', '약 60분', 'Python SDK로 MCP 서버·클라이언트 만들기', PD + 'introduction-to-model-context-protocol'),
+      N('Introduction to agent skills', '약 30분', '스킬 만들기·공유, CLAUDE.md·훅·MCP와 비교', PD + 'introduction-to-agent-skills'),
+      N('Introduction to subagents', '약 20분', '작업을 병렬 하위 에이전트로 나누는 설계', PD + 'introduction-to-subagents') ] },
+    { s:'GO DEEPER', n:'선택', c:[
+      N('Building with the Claude API', '75개 레슨', 'API 심화 강좌. 프롬프트 평가, 도구 사용, 프롬프트 캐싱부터', P + 'claude-with-the-anthropic-api'),
+      N('Claude with Amazon Bedrock', '73개 레슨', '같은 API 강좌의 Amazon Bedrock 버전', P + 'claude-in-amazon-bedrock'),
+      N('Claude with Google Cloud’s Vertex AI', '75개 레슨', '같은 API 강좌의 Google Cloud 버전', P + 'claude-with-google-vertex'),
+      N('Model Context Protocol: Advanced topics', '12개 레슨', 'MCP 심화: 샘플링, 알림, 전송 방식, 확장', P + 'model-context-protocol-advanced-topics'),
+      N('The AI-native SDLC playbook', '14개 레슨 · Claude Academy', '에이전트 중심 개발 절차, CI 평가, 승인 훅', AC + 'courses/ai-native-sdlc-playbook'),
+      N('What is Claude Managed Agents?', '짧은 튜토리얼 · Claude Academy', '관리형 에이전트 소개 (베타)', AC + 'tutorials/what-is-claude-managed-agents'),
+      N('Choosing the right effort level in Claude Code', '짧은 튜토리얼 · Claude Academy', 'Claude Code 작업 강도 고르기', AC + 'tutorials/choosing-the-right-effort-level-in-claude-code'),
+      N('Using Claude Code Remote Control', '짧은 튜토리얼 · Claude Academy', 'Claude Code 원격 조작', AC + 'tutorials/using-claude-code-remote-control'),
+      CTX_TUT,
+      N('Tokens: why some inputs cost more than others', '짧은 튜토리얼 · Claude Academy', '토큰과 입력별 비용 차이', AC + 'tutorials/tokens-and-embeddings') ] }
+  ],
+  'dv:prep': [
+    { s:'PREP COURSE', n:'5개 모듈', c:[
+      L('MSO Foundations', '57분', '토큰·컨텍스트·샘플링, 모델 등급과 추론 모드, SDK와 REST', PDV + 'mso-foundations', '1번'),
+      L('Production-Grade Prompting, Agents & Tool Use', '209분', '프롬프트 설계, 도구 스키마, 스트리밍, 컨텍스트 관리, 에이전트 구성', PDV + 'production-grade-prompting-agents-tool-use', '2번'),
+      L('Claude Code, MCP & Integration', '142분', '권한 모드, CLAUDE.md·훅, 스킬 패키징, MCP 서버, 기업 시스템 연결', PDV + 'claude-code-mcp-integration', '3번'),
+      L('Production Engineering, Evals & Security', '211분', '평가, 테스트·추적, 오류 처리, 비용, 인젝션 방어', PDV + 'production-engineering-evals-security', '4번'),
+      L('Accelerators & IP Contribution', '155분', '재사용 패키징, 배포·버전 관리, 플랫폼 비교', PDV + 'accelerators-ip-contribution', '5번') ] }
+  ],
+  'arp:path': [
+    { s:'CORE', n:'필수', c:[
+      N('AI Capabilities and Limitations', '약 60분', '언어 모델이 할 수 있는 일과 없는 일', PR + 'ai-capabilities-and-limitations'),
+      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 위임·설명·판단·검증', PR + 'ai-fluency-for-builders'),
+      CORE_FDN(PR), CHOOSE ] },
+    { s:'ROLE COURSES', n:'아키텍트 강좌', c:[
+      N('Claude Platform 101', '약 90분', 'API 호출부터 에이전트 루프, 도구, MCP, 관리형 에이전트까지 설계 재료', PR + 'claude-platform-101'),
+      N('Claude Code 101', '약 60분', '개발 팀이 쓸 도구 실습: 작업 흐름, CLAUDE.md, 하위 에이전트, 훅', PR + 'claude-code-101'),
+      N('Introduction to Model Context Protocol', '약 60분', 'MCP로 고객 시스템에 연결하는 방식', PR + 'introduction-to-model-context-protocol'),
+      N('Introduction to subagents', '약 20분', '여러 에이전트로 나눌 때의 설계 기준', PR + 'introduction-to-subagents'),
+      N('Product Foundations', '약 40분', 'Claude 제품 구성과 고객 인프라에 맞는 배포 경로', PR + 'product-foundations'),
+      N('Deployment Architecture', '약 40분', '4가지 배포 경로, 기능 차이, 게이트웨이, 데이터 위치', PR + 'deployment-architecture'),
+      N('Delivery Methodology', '약 40분', '사용 사례 검증, 파일럿 설계, 기준선 측정, 도입·리스크 계획', PR + 'delivery-methodology') ] },
+    { s:'GO DEEPER', n:'선택', c:[
+      N('Claude Code in action', '10개 레슨', '긴 작업 세션, 권한, 훅, headless 실행', P + 'claude-code-in-action'),
+      N('Building with the Claude API', '75개 레슨', 'API 전체 강좌. 프롬프트 평가, 도구 사용, 캐싱부터', P + 'claude-with-the-anthropic-api'),
+      N('Introduction to agent skills', '6개 레슨', '스킬 만들기·설정·공유', P + 'introduction-to-agent-skills'),
+      N('Deploying Claude Enterprise with confidence', '15개 레슨', '도입 5가지 결정: 조직 구조, 접근, 거버넌스, 비용, 가시성', P + 'deploying-claude-enterprise-with-confidence-the-five-decisions-that-shape-your-rollout'),
+      N('Security and Governance', 'Claude Code partner badge 강좌', '관리 설정, 권한, 샌드박스, SSO, 데이터 보존', P + 'path/partner-badge-claude-code/security-and-governance'),
+      N('Claude with Amazon Bedrock', '73개 레슨', 'API 강좌의 Amazon Bedrock 버전', P + 'claude-in-amazon-bedrock'),
+      N('Claude with Google Cloud’s Vertex AI', '75개 레슨', 'API 강좌의 Google Cloud 버전', P + 'claude-with-google-vertex'),
+      N('Model Context Protocol: Advanced topics', '12개 레슨', 'MCP 심화', P + 'model-context-protocol-advanced-topics'),
+      N('The AI-native SDLC playbook', '14개 레슨 · Claude Academy', '에이전트 중심 개발 절차', AC + 'courses/ai-native-sdlc-playbook'),
+      N('What is Claude Managed Agents?', '짧은 튜토리얼 · Claude Academy', '관리형 에이전트 소개 (베타)', AC + 'tutorials/what-is-claude-managed-agents'),
+      CTX_TUT ] }
+  ],
+  'arp:prep': [
+    { s:'PREP COURSE', n:'5개 모듈', c:[
+      L('Claude Platform & Solution Design', '238분', '문제 분해, 패턴 선택, 참조 아키텍처, RAG 설계, 모델·컨텍스트 전략', PAR + 'claude-platform-solution-design', '1번'),
+      L('Enterprise Integration & Production', '158분', '평가 기준, PoC에서 운영까지, 규모 추정, 통합 패턴', PAR + 'enterprise-integration-production', '2번'),
+      L('Responsible AI, Safety & Risk for Architects', '114분', '가드레일, 공정성, 검토 배정, 규제 대응', PAR + 'responsible-ai-safety-risk-for-architects', '3번'),
+      L('Stakeholder Engagement, Lifecycle & GTM', '178분', '발굴 대화, 트레이드오프 설명, 피드백 루프, 문서화', PAR + 'stakeholder-engagement-lifecycle-gtm', '4번'),
+      L('Team Enablement & Operational Productivity', '45분', '팀 설정·배포, 검토 기준, 운영 지원', PAR + 'developer-productivity-enablement', '5번') ] }
+  ]
+};
+function curCount(key){ var n = 0, l = 0; (CUR[key] || []).forEach(function(g){ g.c.forEach(function(x){ n++; if (x.later) l++; }); }); return { n:n, later:l, now:n - l }; }
 var MATS = {
   ao: [
     guideItem(BYK.ao),
-    { id:'gen', t:'Claude Associate 학습 경로 · 일반 강좌', d:'Claude 101, Introduction to Claude Cowork, AI Capabilities and Limitations. Claude 기본 기능과 작업 방식', w:'지금 가능', u:P+'path/claude-associate' },
+    { id:'path', t:'Claude Associate 학습 경로', m:'10개 강좌 + 선택 강좌 · 약 9시간', d:'Claude 101, Cowork 같은 일반 강좌와 Prep Course 모듈이 섞인 공식 학습 경로', w:'일부 지금 가능', u:P+'path/claude-associate' },
     { id:'prep', t:'CCAO-F Prep Course', m:'8개 모듈 · 약 6시간 30분', d:'시험 범위를 순서대로 따라가는 공식 준비 과정', w:'11/17 이후', u:BYK.ao.prep },
     { id:'acad', t:'CCAO-F Academy', d:'출제 영역별 레슨, 영어 연습 문제, 60문항 모의고사', w:'새 가이드 반영 후', u:AO_SITE }
   ],
   dv: [
     guideItem(BYK.dv),
     { id:'base', t:'CCDV-F 개발 기초 레슨', d:'터미널, JSON, API, git 기초. 개발 경험이 없으면 가장 먼저 볼 자료', w:'공개 예정', u:null },
-    { id:'path', t:'Claude Developer 학습 경로', m:'10개 강좌 · 약 8시간', d:'Claude Platform 101, Claude Code, MCP·Skills·Subagents 입문 등 일반 강좌. 이 중 Claude Platform & Model Foundations는 Prep Course와 같은 강좌라 11/17 이후', w:'지금 가능', u:P+'path/claude-developer' },
+    { id:'path', t:'Claude Developer 학습 경로', m:'10개 강좌 + 선택 강좌 · 약 8시간', d:'Claude Platform 101, Claude Code, MCP·Skills·Subagents 입문 등 개발자용 공식 학습 경로', w:'대부분 지금 가능', u:P+'path/claude-developer' },
     { id:'prep', t:'CCDV-F Prep Course', m:'5개 모듈 · 약 13시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정', w:'11/17 이후', u:BYK.dv.prep },
     { id:'prac', t:'CCDV-F 연습 문제·모의고사', d:'새 가이드 기준 영어 연습 문제와 모의고사', w:'공개 예정', u:null }
   ],
   arp: [
     guideItem(BYK.arp),
-    { id:'path', t:'Claude Architect 학습 경로 · 일반 강좌', d:'Product Foundations, Deployment Architecture, Delivery Methodology 등 도입·배포 설계 강좌', w:'지금 가능', u:P+'path/claude-architect' },
+    { id:'path', t:'Claude Architect 학습 경로', m:'11개 강좌 + 선택 강좌 · 약 9시간', d:'CCAR-F용 공식 학습 경로. CCAR-P 준비의 기초. 도입·배포 설계 강좌 포함', w:'대부분 지금 가능', u:P+'path/claude-architect' },
     { id:'api', t:'Building with the Claude API · RAG·Agents 부분', d:'검색 기반 답변(RAG)과 에이전트 구성 실습', w:'지금 가능', u:P+'claude-with-the-anthropic-api' },
     { id:'prep', t:'CCAR-P Prep Course', m:'5개 모듈 · 약 12시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. CCDV-F를 마친 뒤 수강 권장', w:'11/17 이후', u:BYK.arp.prep },
     { id:'prac', t:'CCAR-P 연습 문제·모의고사', d:'새 가이드 기준 영어 연습 문제와 모의고사', w:'공개 예정', u:null }
@@ -232,6 +373,15 @@ function timeline(list){
   return h + '</div></div><p class="howto"><b>읽는 법</b>가로축 = 날짜. 점 = 응시일. 점을 좌우로 끌면 응시일 변경. 점선 = 새 가이드 공개(11/17)와 시험 개편(12/7)' + (PRIVATE ? ', 주황 점선 = 강의 시작(1/9)' : '') + '. 굵은 세로선 = 오늘.</p>';
 }
 
+var OPEN = {};
+function curHTML(key){
+  return '<div class="cur">' + CUR[key].map(function(g){
+    return '<div class="cur-sec"><b>' + esc(g.s) + '</b><span>' + esc(g.n) + '</span></div>' + g.c.map(function(x){
+      var st = x.later ? 'later' : 'now';
+      return '<div class="ci ' + st + '"><div><div class="ct"><a href="' + x.u + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a><span class="cm">' + esc(x.m) + '</span></div><div class="cd">' + esc(x.d) + (x.tag ? ' · ' + esc(x.tag) : '') + '</div></div><span class="chip ' + st + '">' + (x.later ? '11/17 이후' : '지금 가능') + '</span></div>';
+    }).join('');
+  }).join('') + '</div>';
+}
 function teachLine(k, d){
   if (!PRIVATE || !TEACH_NEED[k]) return '';
   if (pd(d) >= pd(TEACH_DAY)) return '<li class="warn">1/9 강의 시작 이후 응시. 강의 전 합격 필요</li>';
@@ -254,14 +404,17 @@ function render(){
       '<a class="reg" href="' + e.reg + '" target="_blank" rel="noopener">시험 등록 페이지 ↗</a></div>';
   }).join('') + '</div></div>';
 
-  h += '<div class="sec"><div><h2>시험별 학습 자료</h2><p class="howto"><b>읽는 법</b>위에서 아래로 보는 순서. 시점 = 보기 시작하기 좋은 때. "지금 가능" = 시험 가이드 개편과 관계없는 일반 강좌. 체크 = 학습 완료 표시.</p></div>';
+  h += '<div class="sec"><div><h2>시험별 학습 자료</h2><p class="howto"><b>읽는 법</b>위에서 아래로 보는 순서. 시점 = 보기 시작하기 좋은 때. 학습 경로와 Prep Course 항목을 누르면 전체 커리큘럼이 펼쳐짐. 체크 = 학습 완료 표시.</p>' + '<div class="legend2"><span class="chip now">지금 가능</span>시험 가이드 개편과 관계없는 일반 강좌<span class="chip later">11/17 이후</span>새 가이드 공개 후 들을 강좌 (Prep Course 모듈)</div></div>';
   list.forEach(function(e){
     var d = examDate(e.k);
     h += '<div class="mat" style="--cc:var(' + e.cc + ')"><div class="mat-hd"><b>' + e.code + '</b><span>' + md(d) + ' 응시 · ' + dday(d) + '</span></div><ol>';
     MATS[e.k].forEach(function(m){
-      var done = isDone(e.k, m.id), cid = 'c-' + e.k + '-' + m.id;
+      var done = isDone(e.k, m.id), cid = 'c-' + e.k + '-' + m.id, key = e.k + ':' + m.id, has = !!CUR[key], open = has && !!OPEN[key];
       var title = m.u ? '<a href="' + m.u + '" target="_blank" rel="noopener">' + esc(m.t) + ' ↗</a>' : esc(m.t);
-      h += '<li><div class="mi' + (done ? ' done' : '') + '"><input type="checkbox" id="' + cid + '" data-ck="' + e.k + '" data-id="' + m.id + '"' + (done ? ' checked' : '') + ' aria-label="' + esc(m.t) + ' 완료"><div><div class="t">' + title + (m.m ? '<em>' + esc(m.m) + '</em>' : '') + '</div><div class="d">' + esc(m.d) + '</div></div><div class="w' + (m.w === '지금 가능' ? ' now' : '') + '">' + esc(m.w) + '</div></div></li>';
+      var wc = /지금 가능/.test(m.w) ? ' now' : (/11\/17 이후/.test(m.w) ? ' later' : '');
+      var tg = '';
+      if (has){ var cc = curCount(key); tg = '<button type="button" class="cur-tg" data-cur="' + key + '" aria-expanded="' + open + '">전체 커리큘럼 ' + cc.n + '개' + (cc.now ? ' · <span class="n">지금 ' + cc.now + '</span>' : '') + (cc.later ? ' · <span class="l">11/17 이후 ' + cc.later + '</span>' : '') + (open ? ' ▴' : ' ▾') + '</button>'; }
+      h += '<li><div class="mi' + (done ? ' done' : '') + (has ? ' has' : '') + '"' + (has ? ' data-row="' + key + '"' : '') + '><input type="checkbox" id="' + cid + '" data-ck="' + e.k + '" data-id="' + m.id + '"' + (done ? ' checked' : '') + ' aria-label="' + esc(m.t) + ' 완료"><div><div class="t">' + title + (m.m ? '<em>' + esc(m.m) + '</em>' : '') + '</div><div class="d">' + esc(m.d) + '</div>' + tg + '</div><div class="w' + wc + '">' + esc(m.w) + '</div>' + (open ? curHTML(key) : '') + '</div></li>';
     });
     h += '</ol></div>';
   });
@@ -324,6 +477,12 @@ VIEW.addEventListener('keydown', function(e){
   var again = VIEW.querySelector('.tl-ex[data-k="' + k + '"]'); if (again) again.focus();
 });
 
+VIEW.addEventListener('click', function(e){
+  if (e.target.closest('a,input,label')) return;
+  var b = e.target.closest('[data-cur]') || e.target.closest('[data-row]'); if (!b || e.target.closest('.cur')) return;
+  var key = b.dataset.cur || b.dataset.row; OPEN[key] = !OPEN[key]; render();
+  var tgb = VIEW.querySelector('[data-cur="' + key + '"]'); if (tgb && b.dataset.cur) tgb.focus({ preventScroll:true });
+});
 document.querySelectorAll('.nav button[data-tip]').forEach(function(b){
   b.addEventListener('click', function(){ b.classList.add('tip'); clearTimeout(b._t); b._t = setTimeout(function(){ b.classList.remove('tip'); }, 1600); });
 });
