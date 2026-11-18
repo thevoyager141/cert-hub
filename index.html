@@ -179,6 +179,10 @@ p{margin:0}
 .gleg{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--muted);align-items:center}
 .gleg .sw{display:inline-block;width:22px;height:8px;border-radius:4px;background:var(--muted);vertical-align:1px;margin-right:6px}
 .gleg .mk{display:inline-block;width:2px;height:14px;background:var(--fg);opacity:.6;vertical-align:-3px;margin-right:6px}
+.gcom{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:13px}
+.gcom b{display:block;font-size:13px;margin-bottom:4px}
+.gcom ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px}
+.gcom li em{font-style:normal;color:var(--faint);margin-left:6px;font-size:12px}
 
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:20px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:12px;color:var(--faint)}
@@ -242,35 +246,35 @@ var EXAMS = [
     reg:P+'claude-certified-architect-professional-certification', prep:P+'path/claude-certified-architect-professional' }
 ];
 var BYK = {}; EXAMS.forEach(function(e){ BYK[e.k] = e; });
-function guideItem(e){ return { id:'guide', t:'시험 가이드 (12/7 적용판)', d:'출제 영역, 영역별 비중, 세부 목표를 정한 공식 문서. 11/17 공개. 7월판과의 차이는 Cert Guidance 탭에 정리', w:'공개됨', u:e.gNew }; }
-/* 공식 학습 경로·Prep Course 커리큘럼 (Partner Academy, 2026-10-27 확인). later = 11/17 새 가이드 공개 후 수강 */
+function guideItem(e){ return { id:'guide', t:'시험 가이드 (12/7 적용판)', d:'출제 영역, 영역별 비중, 영역별 평가 항목, 권장 준비, 샘플 문제를 담은 공식 문서. 11/17 공개. 7월판과의 차이는 Cert Guidance 탭에 정리', w:'공개됨', u:e.gNew }; }
+/* 공식 학습 경로·Prep Course 커리큘럼과 강좌 설명 (Partner Academy, 2026-11-18 재확인). later = Prep Course 모듈 */
 var AC = 'https://academy.claude.com/';
 function N(t, m, d, u){ return { t:t, m:m, d:d, u:u, later:false }; }
 function L(t, m, d, u, tag){ return { t:t, m:m, d:d, u:u, later:true, tag:tag }; }
 var PA = P + 'path/claude-associate/', PD = P + 'path/claude-developer/', PR = P + 'path/claude-architect/';
 var PAO = P + 'path/claude-certified-associate-foundations/', PDV = P + 'path/claude-certified-developer-foundations/', PAR = P + 'path/claude-certified-architect-professional/';
-var CORE_FDN = function(base){ return L('Claude Platform and Model Foundations', '59분', 'Claude를 쓸 수 있는 곳, 곳별 기능, 모델·컨텍스트 선택', base + 'claude-platform-model-foundations', 'CCAO-F Prep Course 1번 모듈과 같은 강좌 · 새 가이드 D3'); };
-var CHOOSE = N('Choosing the right Claude model', '약 10분 · Claude Academy', '모델별 강점과 사용량 차이', AC + 'tutorials/choosing-the-right-claude-model');
+var CORE_FDN = function(base, extra){ return L('Claude Platform and Model Foundations', '59분', '작업에 맞는 사용 경로와 기능, Haiku·Sonnet·Opus 선택, 컨텍스트 한계와 메모리 관리', base + 'claude-platform-model-foundations', 'CCAO-F Prep Course 1번 모듈과 같은 강좌' + (extra || '')); };
+var CHOOSE = N('Choosing the right Claude model', '약 10분 · Claude Academy', '모델별 강점과 사용 한도(rate limit) 차이', AC + 'tutorials/choosing-the-right-claude-model');
 var CTX_TUT = N('How context affects Claude’s performance and cost', '짧은 튜토리얼 · Claude Academy', '컨텍스트가 성능과 비용에 주는 영향', AC + 'tutorials/parametric-memory-and-context');
 var CUR = {
   'ao:path': [
     { s:'CORE', n:'필수', c:[
       N('AI Capabilities and Limitations', '약 60분', 'Claude가 잘하는 일과 실수하는 지점, 그 이유', PA + 'ai-capabilities-and-limitations'),
-      N('Claude 101', '약 60분', '첫 대화부터 Projects, 아티팩트, 스킬, 커넥터, Research까지', PA + 'claude-101'),
-      CORE_FDN(PA), CHOOSE ] },
+      N('Claude 101', '약 60분', '첫 대화부터 Projects, 아티팩트, 스킬, 커넥터, Research, 기업 검색(Enterprise search)까지', PA + 'claude-101'),
+      CORE_FDN(PA, ' · 가까운 영역 D3'), CHOOSE ] },
     { s:'WORKING WITH CLAUDE DAY TO DAY', n:'일상 업무 활용', c:[
-      L('Prompting and Task Execution', '53분', '반복해 쓸 수 있는 프롬프트 구조', PA + 'prompting-task-execution', 'Prep Course 2번 모듈 · 새 가이드 D1'),
-      L('Evaluating and Validating Claude’s Output', '74분', '결과를 쓰기 전 정확성·완결성 점검', PA + 'evaluating-validating-claudes-output', 'Prep Course 3번 모듈 · 새 가이드 D2'),
-      N('Introduction to Claude Cowork', '약 60분', '여러 단계 작업 맡기기, 예약 작업, 스킬·플러그인, 안전한 사용', PA + 'introduction-to-claude-cowork') ] },
+      L('Prompting and Task Execution', '53분', '반복해 쓸 수 있는 프롬프트 구성, 작업 분해, 진단하며 고치기, 작업 유형별 전략', PA + 'prompting-task-execution', 'Prep Course 2번 모듈 · 가까운 영역 D1'),
+      L('Evaluating and Validating Claude’s Output', '74분', '정확성·완결성 평가, 환각·불일치·편향 찾기, 사실 확인, 사람 검토가 필요한 때, 독자·형식에 맞게 다듬기', PA + 'evaluating-validating-claudes-output', 'Prep Course 3번 모듈 · 가까운 영역 D2'),
+      N('Introduction to Claude Cowork', '약 60분', '작업 맡기기와 진행 흐름, 컨텍스트 제공, 결과 공유, 예약 작업, 스킬·플러그인, 안전한 사용', PA + 'introduction-to-claude-cowork') ] },
     { s:'FINDING A USE CASE AND USING IT RESPONSIBLY', n:'활용 사례 찾기·책임 있는 사용', c:[
-      L('Workflow Integration and Solution Design', '63분', '개인 사용에서 팀 업무 흐름으로 옮기는 방법', PA + 'workflow-integration-solution-design', 'Prep Course 4번 모듈 · 새 가이드 D4'),
-      L('Governance, Risk and Responsible Use', '55분', '어디에 어떤 데이터를 넣어도 되는지, 일상 판단 기준', PA + 'governance-risk-responsible-use', 'Prep Course 6번 모듈 · 새 가이드 D6') ] },
+      L('Workflow Integration and Solution Design', '63분', '요구사항·사용 사례 분석, 솔루션 설계, 기존 업무 흐름에 넣거나 새로 설계, 가치·한계 설명', PA + 'workflow-integration-solution-design', 'Prep Course 4번 모듈 · 가까운 영역 D4'),
+      L('Governance, Risk and Responsible Use', '55분', '적절·부적절한 사용 사례, 데이터 민감도·개인정보·규제, 조직 AI 정책, 윤리적 영향', PA + 'governance-risk-responsible-use', 'Prep Course 6번 모듈 · 가까운 영역 D6') ] },
     { s:'YOUR FUNCTION', n:'직무별', c:[
       N('Claude for your function', '약 30분 · Claude Academy', '마케팅·재무·법무·HR 등 직무별 사용 사례', AC + 'use-cases') ] },
     { s:'GO DEEPER', n:'선택', c:[
-      L('Configuration and Knowledge Management', '47분', 'Projects 지시문과 지식 자료로 결과를 일정하게', PAO + 'configuration-knowledge-management', 'Prep Course 5번 모듈 · 새 가이드 D5'),
-      L('Troubleshooting and Optimization', '30분', '약한 결과의 원인을 찾아 고치는 방법', PAO + 'troubleshooting-optimization', 'Prep Course 7번 모듈 · 영역 폐지, D1·D5로 분산'),
-      N('AI Fluency: Framework and foundations', '15개 레슨', '위임·설명·판단·검증 4가지 역량과 프롬프트 기초', P + 'ai-fluency-framework-foundations'),
+      L('Configuration and Knowledge Management', '47분', 'Projects 지시문·지식 자료·커넥터 설정과 유지 관리', PAO + 'configuration-knowledge-management', 'Prep Course 5번 모듈 · 가까운 영역 D5'),
+      L('Troubleshooting and Optimization', '30분', '약한 결과의 원인 진단, 반복되는 수정을 Projects·Skills·고정 지시로 옮기기', PAO + 'troubleshooting-optimization', 'Prep Course 7번 모듈 · 폐지된 7월판 D7. 새 가이드 D1·D5 진단 항목과 겹침'),
+      N('AI Fluency: Framework and foundations', '15개 레슨', 'AI Fluency 4가지 역량(위임 Delegation·설명 Description·분별 Discernment·책임 Diligence)과 프롬프트 기초', P + 'ai-fluency-framework-foundations'),
       N('Scaling workflows with Claude Cowork at your organization', '짧은 튜토리얼 · Claude Academy', '조직 단위 Cowork 활용', AC + 'tutorials/scaling-workflows-with-claude-cowork-at-your-organization'),
       N('Teach Claude your way of working using skills', '짧은 튜토리얼 · Claude Academy', '스킬로 내 작업 방식 가르치기', AC + 'tutorials/teach-claude-your-way-of-working-using-skills'),
       N('Customize Claude Cowork', '짧은 튜토리얼 · Claude Academy', 'Cowork 설정 바꾸기', AC + 'tutorials/customize-claude-cowork'),
@@ -281,65 +285,65 @@ var CUR = {
   ],
   'ao:prep': [
     { s:'PREP COURSE', n:'8개 모듈', c:[
-      L('Claude Platform & Model Foundations', '59분', '접속 경로·기능·모델·컨텍스트 선택', PAO + 'claude-platform-model-foundations', '1번 · 새 가이드 D3'),
-      L('Prompting & Task Execution', '53분', '프롬프트 구성, 작업 분해, 반복 수정', PAO + 'prompting-task-execution', '2번 · 새 가이드 D1'),
-      L('Evaluating & Validating Claude’s Output', '74분', '정확성 평가, 환각 찾기, 사람 검토 시점. 최대 비중 영역', PAO + 'evaluating-validating-claudes-output', '3번 · 새 가이드 D2'),
-      L('Workflow Integration & Solution Design', '63분', '요구사항 분석, 위임할 단계 정하기, 가치·한계 설명', PAO + 'workflow-integration-solution-design', '4번 · 새 가이드 D4'),
-      L('Configuration & Knowledge Management', '47분', 'Projects 지시문·지식·커넥터 설정과 유지', PAO + 'configuration-knowledge-management', '5번 · 새 가이드 D5'),
-      L('Governance, Risk & Responsible Use', '55분', '데이터 민감도, 조직 정책, 윤리적 영향', PAO + 'governance-risk-responsible-use', '6번 · 새 가이드 D6'),
-      L('Troubleshooting & Optimization', '30분', '성능 낮은 프롬프트·결과 진단과 개선', PAO + 'troubleshooting-optimization', '7번 · 영역 폐지, D1·D5로 분산'),
-      L('Course Summary & Next Steps', '8분', '7개 역량 연결 정리', PAO + 'course-summary-next-steps', '8번 · 전체 정리') ] }
+      L('Claude Platform & Model Foundations', '59분', '작업에 맞는 사용 경로·기능, Haiku·Sonnet·Opus 선택, 컨텍스트 한계와 메모리 관리', PAO + 'claude-platform-model-foundations', '1번 · 가까운 영역 D3'),
+      L('Prompting & Task Execution', '53분', '반복해 쓸 수 있는 프롬프트 구성, 작업 분해, 진단하며 고치기, 분석·리서치·초안·브레인스토밍별 전략', PAO + 'prompting-task-execution', '2번 · 가까운 영역 D1'),
+      L('Evaluating & Validating Claude’s Output', '74분', '정확성·완결성 평가, 환각·불일치·편향 찾기, 사실 확인, 사람 검토가 필요한 때, 독자에 맞게 다듬기, 출력 형식 선택. 새 가이드에서도 최대 비중(D2 20%)', PAO + 'evaluating-validating-claudes-output', '3번 · 가까운 영역 D2'),
+      L('Workflow Integration & Solution Design', '63분', '요구사항·사용 사례 분석, 리서치·계획·프로세스 개선, 기존 업무 흐름에 넣거나 새로 설계, 이해관계자에게 가치·한계 설명', PAO + 'workflow-integration-solution-design', '4번 · 가까운 영역 D4'),
+      L('Configuration & Knowledge Management', '47분', 'Projects 지시문·지식 자료·커넥터 설정, 설정 유지와 갱신', PAO + 'configuration-knowledge-management', '5번 · 가까운 영역 D5'),
+      L('Governance, Risk & Responsible Use', '55분', '적절·부적절한 사용 사례, 데이터 민감도·개인정보·규제, 조직 AI 정책, 윤리적 영향', PAO + 'governance-risk-responsible-use', '6번 · 가까운 영역 D6'),
+      L('Troubleshooting & Optimization', '30분', '약한 결과의 원인 진단(지시 부족, 컨텍스트 과다, 기능·모델 선택 오류, 오래된 설정), 반복되는 수정을 Projects·Skills·고정 지시로 옮기기', PAO + 'troubleshooting-optimization', '7번 · 폐지된 7월판 D7. 새 가이드 D1·D5 진단 항목과 겹침'),
+      L('Course Summary & Next Steps', '8분', '앞선 7개 모듈 내용을 하나의 작업 흐름으로 정리, 시험 개요', PAO + 'course-summary-next-steps', '8번 · 전체 정리') ] }
   ],
   'dv:path': [
     { s:'CORE', n:'필수', c:[
-      N('AI Capabilities and Limitations', '약 60분', '모델이 그렇게 동작하는 이유: 예측, 지식, 작업 기억, 컨텍스트 한계', PD + 'ai-capabilities-and-limitations'),
-      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 위임·설명·판단·검증', PD + 'ai-fluency-for-builders'),
+      N('AI Capabilities and Limitations', '약 60분', '모델이 그렇게 동작하는 이유: 예측, 지식, 작업 기억, 컨텍스트 한계, 지시로 동작을 조정할 수 있는 정도(steerability)', PD + 'ai-capabilities-and-limitations'),
+      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 AI Fluency 4가지 역량(위임·설명·분별·책임)', PD + 'ai-fluency-for-builders'),
       CORE_FDN(PD), CHOOSE ] },
     { s:'ROLE COURSES', n:'개발자 강좌', c:[
-      N('Claude Platform 101', '약 90분', 'API 첫 호출부터 에이전트 루프, 도구 사용, MCP, 관리형 에이전트까지', PD + 'claude-platform-101'),
-      N('Claude Code 101', '약 60분', '설치, 탐색→계획→코딩→커밋 흐름, CLAUDE.md, 훅', PD + 'claude-code-101'),
+      N('Claude Platform 101', '약 90분', 'API 첫 호출부터 extended thinking, 도구 사용(기본 제공 도구 포함), 에이전트 루프, 스킬, 컨텍스트 관리, MCP, 관리형 에이전트까지', PD + 'claude-platform-101'),
+      N('Claude Code 101', '약 60분', '설치, 탐색→계획→코딩→커밋 흐름, 프롬프트 모드, CLAUDE.md, 하위 에이전트, 스킬, MCP, 훅', PD + 'claude-code-101'),
       N('Claude Code in action', '약 60분', '긴 작업 세션, 권한 모드, 훅, headless 실행, GitHub Actions', PD + 'claude-code-in-action'),
       N('Introduction to Model Context Protocol', '약 60분', 'Python SDK로 MCP 서버·클라이언트 만들기', PD + 'introduction-to-model-context-protocol'),
-      N('Introduction to agent skills', '약 30분', '스킬 만들기·공유, CLAUDE.md·훅·MCP와 비교', PD + 'introduction-to-agent-skills'),
+      N('Introduction to agent skills', '약 30분', '스킬 만들기·공유, CLAUDE.md·훅·MCP·하위 에이전트와 비교', PD + 'introduction-to-agent-skills'),
       N('Introduction to subagents', '약 20분', '작업을 병렬 하위 에이전트로 나누는 설계', PD + 'introduction-to-subagents') ] },
     { s:'GO DEEPER', n:'선택', c:[
       N('Building with the Claude API', '75개 레슨', 'API 심화 강좌. 프롬프트 평가, 도구 사용, 프롬프트 캐싱부터', P + 'claude-with-the-anthropic-api'),
       N('Claude with Amazon Bedrock', '73개 레슨', '같은 API 강좌의 Amazon Bedrock 버전', P + 'claude-in-amazon-bedrock'),
       N('Claude with Google Cloud’s Vertex AI', '75개 레슨', '같은 API 강좌의 Google Cloud 버전', P + 'claude-with-google-vertex'),
-      N('Model Context Protocol: Advanced topics', '12개 레슨', 'MCP 심화: 샘플링, 알림, 전송 방식, 확장', P + 'model-context-protocol-advanced-topics'),
+      N('Model Context Protocol: Advanced topics', '12개 레슨', 'MCP 심화: 샘플링, 알림, 접근 범위 지정(roots), 전송 방식, 상태를 두지 않는 서버 확장(stateless scaling)', P + 'model-context-protocol-advanced-topics'),
       N('The AI-native SDLC playbook', '14개 레슨 · Claude Academy', '에이전트 중심 개발 절차, CI 평가, 승인 훅', AC + 'courses/ai-native-sdlc-playbook'),
       N('What is Claude Managed Agents?', '짧은 튜토리얼 · Claude Academy', '관리형 에이전트 소개 (베타)', AC + 'tutorials/what-is-claude-managed-agents'),
-      N('Choosing the right effort level in Claude Code', '짧은 튜토리얼 · Claude Academy', 'Claude Code 작업 강도 고르기', AC + 'tutorials/choosing-the-right-effort-level-in-claude-code'),
+      N('Choosing the right effort level in Claude Code', '짧은 튜토리얼 · Claude Academy', 'Claude Code의 effort level(추론에 들이는 노력 수준) 고르기', AC + 'tutorials/choosing-the-right-effort-level-in-claude-code'),
       N('Using Claude Code Remote Control', '짧은 튜토리얼 · Claude Academy', 'Claude Code 원격 조작', AC + 'tutorials/using-claude-code-remote-control'),
       CTX_TUT,
       N('Tokens: why some inputs cost more than others', '짧은 튜토리얼 · Claude Academy', '토큰과 입력별 비용 차이', AC + 'tutorials/tokens-and-embeddings') ] }
   ],
   'dv:prep': [
     { s:'PREP COURSE', n:'5개 모듈', c:[
-      L('MSO Foundations', '57분', '토큰·컨텍스트·샘플링, 모델 등급과 추론 모드, SDK와 REST', PDV + 'mso-foundations', '1번'),
-      L('Production-Grade Prompting, Agents & Tool Use', '209분', '프롬프트 설계, 도구 스키마, 스트리밍, 컨텍스트 관리, 에이전트 구성', PDV + 'production-grade-prompting-agents-tool-use', '2번'),
-      L('Claude Code, MCP & Integration', '142분', '권한 모드, CLAUDE.md·훅, 스킬 패키징, MCP 서버, 기업 시스템 연결', PDV + 'claude-code-mcp-integration', '3번'),
-      L('Production Engineering, Evals & Security', '211분', '평가, 테스트·추적, 오류 처리, 비용, 인젝션 방어', PDV + 'production-engineering-evals-security', '4번'),
-      L('Accelerators & IP Contribution', '155분', '재사용 패키징, 배포·버전 관리, 플랫폼 비교', PDV + 'accelerators-ip-contribution', '5번') ] }
+      L('MSO Foundations', '57분', '토큰, 예산으로 보는 컨텍스트 창, 샘플링과 비결정성, 모델 등급과 추론 모드, 예시 개수(zero/one/multi-shot), SDK와 REST, 스트리밍·비동기 호출', PDV + 'mso-foundations', '1번'),
+      L('Production-Grade Prompting, Agents & Tool Use', '209분', '시스템 프롬프트·XML·예시 설계와 진단, extended thinking 예산, 도구 스키마와 실행 루프·병렬 호출, 스트리밍 오류 복구, 컨텍스트 엔지니어링(압축, 하위 에이전트 인계), 워크플로와 에이전트 중 선택', PDV + 'production-grade-prompting-agents-tool-use', '2번'),
+      L('Claude Code, MCP & Integration', '142분', '탐색→계획→코딩 흐름과 권한 모드, AI가 쓴 코드 검토, CLAUDE.md·규칙·훅·하위 에이전트, 스킬·명령·플러그인, MCP 서버·전송 방식·설정 범위, 기업 시스템 연결·인증, 코드 현대화', PDV + 'claude-code-mcp-integration', '3번'),
+      L('Production Engineering, Evals & Security', '211분', '평가와 LLM 평가자(LLM-as-judge) 보정, 테스트·추적, 재시도할 오류와 멈출 오류 구분, 비용·지연·안정성 예산, 인젝션·탈옥 방어, 비밀값·데이터 경계', PDV + 'production-engineering-evals-security', '4번'),
+      L('Accelerators & IP Contribution', '155분', '재사용 도구(accelerator) 만들기와 공유 저장소 기여, 실행 위치(1P API, Bedrock, Vertex AI 등) 선택과 버전 관리, 플랫폼 비교, 여러 배포 간 조율', PDV + 'accelerators-ip-contribution', '5번') ] }
   ],
   'arp:path': [
     { s:'CORE', n:'필수', c:[
       N('AI Capabilities and Limitations', '약 60분', '언어 모델이 할 수 있는 일과 없는 일', PR + 'ai-capabilities-and-limitations'),
-      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 위임·설명·판단·검증', PR + 'ai-fluency-for-builders'),
+      N('AI Fluency for Builders', '약 45분', '만드는 사람 관점의 AI Fluency 4가지 역량(위임·설명·분별·책임)', PR + 'ai-fluency-for-builders'),
       CORE_FDN(PR), CHOOSE ] },
     { s:'ROLE COURSES', n:'아키텍트 강좌', c:[
-      N('Claude Platform 101', '약 90분', 'API 호출부터 에이전트 루프, 도구, MCP, 관리형 에이전트까지 설계 재료', PR + 'claude-platform-101'),
-      N('Claude Code 101', '약 60분', '개발 팀이 쓸 도구 실습: 작업 흐름, CLAUDE.md, 하위 에이전트, 훅', PR + 'claude-code-101'),
+      N('Claude Platform 101', '약 90분', 'API 호출부터 extended thinking, 도구(기본 제공 도구 포함), 에이전트 루프, 스킬, 컨텍스트 관리, MCP, 관리형 에이전트까지', PR + 'claude-platform-101'),
+      N('Claude Code 101', '약 60분', '개발 팀이 쓸 도구 실습: 작업 흐름, CLAUDE.md, 하위 에이전트, 스킬, 훅', PR + 'claude-code-101'),
       N('Introduction to Model Context Protocol', '약 60분', 'MCP로 고객 시스템에 연결하는 방식', PR + 'introduction-to-model-context-protocol'),
       N('Introduction to subagents', '약 20분', '여러 에이전트로 나눌 때의 설계 기준', PR + 'introduction-to-subagents'),
       N('Product Foundations', '약 40분', 'Claude 제품 구성과 고객 인프라에 맞는 배포 경로', PR + 'product-foundations'),
-      N('Deployment Architecture', '약 40분', '4가지 배포 경로, 기능 차이, 게이트웨이, 데이터 위치', PR + 'deployment-architecture'),
+      N('Deployment Architecture', '약 40분', '4가지 배포 경로, 경로별 기능 차이, 게이트웨이·프록시, 데이터 보관 지역', PR + 'deployment-architecture'),
       N('Delivery Methodology', '약 40분', '사용 사례 검증, 파일럿 설계, 기준선 측정, 도입·리스크 계획', PR + 'delivery-methodology') ] },
     { s:'GO DEEPER', n:'선택', c:[
       N('Claude Code in action', '10개 레슨', '긴 작업 세션, 권한, 훅, headless 실행', P + 'claude-code-in-action'),
       N('Building with the Claude API', '75개 레슨', 'API 전체 강좌. 프롬프트 평가, 도구 사용, 캐싱부터', P + 'claude-with-the-anthropic-api'),
       N('Introduction to agent skills', '6개 레슨', '스킬 만들기·설정·공유', P + 'introduction-to-agent-skills'),
-      N('Deploying Claude Enterprise with confidence', '15개 레슨', '도입 5가지 결정: 조직 구조, 접근, 거버넌스, 비용, 가시성', P + 'deploying-claude-enterprise-with-confidence-the-five-decisions-that-shape-your-rollout'),
+      N('Deploying Claude Enterprise with confidence', '15개 레슨', '도입 5가지 결정: 조직 구조와 계정(ID), 접근, 거버넌스, 비용, 가시성', P + 'deploying-claude-enterprise-with-confidence-the-five-decisions-that-shape-your-rollout'),
       N('Security and Governance', 'Claude Code partner badge 강좌', '관리 설정, 권한, 샌드박스, SSO, 데이터 보존', P + 'path/partner-badge-claude-code/security-and-governance'),
       N('Claude with Amazon Bedrock', '73개 레슨', 'API 강좌의 Amazon Bedrock 버전', P + 'claude-in-amazon-bedrock'),
       N('Claude with Google Cloud’s Vertex AI', '75개 레슨', 'API 강좌의 Google Cloud 버전', P + 'claude-with-google-vertex'),
@@ -350,11 +354,11 @@ var CUR = {
   ],
   'arp:prep': [
     { s:'PREP COURSE', n:'5개 모듈', c:[
-      L('Claude Platform & Solution Design', '238분', '문제 분해, 패턴 선택, 참조 아키텍처, RAG 설계, 모델·컨텍스트 전략', PAR + 'claude-platform-solution-design', '1번'),
-      L('Enterprise Integration & Production', '158분', '평가 기준, PoC에서 운영까지, 규모 추정, 통합 패턴', PAR + 'enterprise-integration-production', '2번'),
-      L('Responsible AI, Safety & Risk for Architects', '114분', '가드레일, 공정성, 검토 배정, 규제 대응', PAR + 'responsible-ai-safety-risk-for-architects', '3번'),
-      L('Stakeholder Engagement, Lifecycle & GTM', '178분', '발굴 대화, 트레이드오프 설명, 피드백 루프, 문서화', PAR + 'stakeholder-engagement-lifecycle-gtm', '4번'),
-      L('Team Enablement & Operational Productivity', '45분', '팀 설정·배포, 검토 기준, 운영 지원', PAR + 'developer-productivity-enablement', '5번') ] }
+      L('Claude Platform & Solution Design', '238분', 'AI 적합성 기준으로 문제 분해, 단일 호출·워크플로·에이전트 중 선택, 참조 패턴, 검색(retrieval)과 실시간 조회 중 선택, 모델·컨텍스트·평가 기준, 거버넌스로 걸러지는 선택지', PAR + 'claude-platform-solution-design', '1번'),
+      L('Enterprise Integration & Production', '158분', '성공 기준과 평가 관문, PoC에서 운영까지 점검표·안정성 패턴, 사용량·비용 추정과 실현 가능성, 기업 통합(SSO·OAuth, 관측), A/B 테스트', PAR + 'enterprise-integration-production', '2번'),
+      L('Responsible AI, Safety & Risk for Architects', '114분', '학습 단계와 앱 단계 통제 구분, 입출력 검사·도구 권한·실패 시 차단(fail closed), 공정성·투명성, 확신도·되돌릴 수 있는지에 따른 검토 배정, 규제 의무를 통제·담당자·증거로 연결', PAR + 'responsible-ai-safety-risk-for-architects', '3번'),
+      L('Stakeholder Engagement, Lifecycle & GTM', '178분', '발굴 대화, 비용·리스크·되돌림 기준의 트레이드오프 설명, 피드백 루프·SLA·거버넌스, 파트너 GTM(데모, 반론 대응, Anthropic Applied AI와 공동 범위 설정), 배포 경로 비교, 성과 문서 작성', PAR + 'stakeholder-engagement-lifecycle-gtm', '4번'),
+      L('Team Enablement & Operational Productivity', '45분', '팀 설정과 도입, 스킬 배포, 비용 통제, AI 도구 사용과 코드 검토 기준, 디버깅 지원과 팀 자립', PAR + 'developer-productivity-enablement', '5번') ] }
   ]
 };
 function curCount(key){ var n = 0, l = 0; (CUR[key] || []).forEach(function(g){ g.c.forEach(function(x){ n++; if (x.later) l++; }); }); return { n:n, later:l, now:n - l }; }
@@ -362,21 +366,21 @@ var MATS = {
   ao: [
     guideItem(BYK.ao),
     { id:'path', t:'Claude Associate 학습 경로', m:'10개 강좌 + 선택 강좌 · 약 9시간', d:'Claude 101, Cowork 같은 일반 강좌와 Prep Course 모듈이 섞인 공식 학습 경로', w:'지금 가능', u:P+'path/claude-associate' },
-    { id:'prep', t:'CCAO-F Prep Course', m:'8개 모듈 · 약 6시간 30분', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. 모듈 구성은 7월판 기준 그대로(11/18 확인). 펼치면 모듈별 새 가이드 영역 표시', w:'지금 가능 · 핵심', u:BYK.ao.prep },
-    { id:'acad', t:'CCAO-F Academy', d:'출제 영역별 레슨, 영어 연습 문제, 60문항 모의고사. 11/27까지 새 가이드 기준으로 갱신 예정', w:'갱신 중', u:AO_SITE }
+    { id:'prep', t:'CCAO-F Prep Course', m:'8개 모듈 · 약 6시간 30분', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. 모듈 목록은 11/17 이전과 같음(11/18 확인). 7월판 7개 영역에 맞춘 구성이라, 펼치면 모듈마다 내용이 가장 가까운 새 가이드 영역 표시', w:'지금 가능 · 핵심', u:BYK.ao.prep },
+    { id:'acad', t:'CCAO-F Academy', d:'7월판 기준 출제 영역별 레슨, 영어 연습 문제, 60문항 모의고사. 11/27까지 새 가이드(6개 영역, 70문항) 기준으로 갱신 예정', w:'갱신 중', u:AO_SITE }
   ],
   dv: [
     guideItem(BYK.dv),
     { id:'base', t:'CCDV-F 개발 기초 레슨', d:'터미널, JSON, API, git 기초. 개발 경험이 없으면 가장 먼저 볼 자료', w:'공개 예정', u:null },
     { id:'path', t:'Claude Developer 학습 경로', m:'10개 강좌 + 선택 강좌 · 약 8시간', d:'Claude Platform 101, Claude Code, MCP·Skills·Subagents 입문 등 개발자용 공식 학습 경로', w:'지금 가능', u:P+'path/claude-developer' },
-    { id:'prep', t:'CCDV-F Prep Course', m:'5개 모듈 · 약 13시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. 모듈 구성은 7월판 기준 그대로(11/18 확인). 새 가이드에서 비중이 커진 Claude Code(8%)와 평가·디버깅(10%)을 함께 챙길 것', w:'지금 가능 · 핵심', u:BYK.dv.prep },
+    { id:'prep', t:'CCDV-F Prep Course', m:'5개 모듈 · 약 13시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. 모듈 목록은 11/17 이전과 같음(11/18 확인). 새 가이드에서 비중이 커진 Claude Code(3.1→8%)는 3번 모듈, 평가·테스트·디버깅(2.6→10%)은 4번 모듈에서 다룸', w:'지금 가능 · 핵심', u:BYK.dv.prep },
     { id:'prac', t:'CCDV-F 연습 문제·모의고사', d:'새 가이드 기준 영어 연습 문제와 모의고사', w:'공개 예정', u:null }
   ],
   arp: [
     guideItem(BYK.arp),
-    { id:'path', t:'Claude Architect 학습 경로', m:'11개 강좌 + 선택 강좌 · 약 9시간', d:'CCAR-F용 공식 학습 경로. CCAR-P 준비의 기초. 도입·배포 설계 강좌 포함', w:'지금 가능', u:P+'path/claude-architect' },
+    { id:'path', t:'Claude Architect 학습 경로', m:'11개 강좌 + 선택 강좌 · 약 9시간', d:'CCAR-F용 공식 학습 경로. 새 CCAR-P 가이드는 CCAR-F 범위를 전제 지식으로 봄(가이드 6장). 도입·배포 설계 강좌 포함', w:'지금 가능', u:P+'path/claude-architect' },
     { id:'api', t:'Building with the Claude API · RAG·Agents 부분', d:'검색 기반 답변(RAG)과 에이전트 구성 실습', w:'지금 가능', u:P+'claude-with-the-anthropic-api' },
-    { id:'prep', t:'CCAR-P Prep Course', m:'5개 모듈 · 약 12시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. CCDV-F를 마친 뒤 수강 권장. 모듈 구성은 7월판 기준 그대로(11/18 확인)', w:'지금 가능 · 핵심', u:BYK.arp.prep },
+    { id:'prep', t:'CCAR-P Prep Course', m:'5개 모듈 · 약 12시간', d:'시험 범위를 순서대로 따라가는 공식 준비 과정. 모듈 목록은 11/17 이전과 같음(11/18 확인)', w:'지금 가능 · 핵심', u:BYK.arp.prep },
     { id:'prac', t:'CCAR-P 연습 문제·모의고사', d:'새 가이드 기준 영어 연습 문제와 모의고사', w:'공개 예정', u:null }
   ]
 };
@@ -438,22 +442,22 @@ function teachLine(k, d){
 
 /* 새 시험 가이드(12/7 적용, v1.1) 출제 영역. old = 7월판 비중. 출처: 각 시험 가이드 PDF 5장 (11/18 확인) */
 var GD = {
-  ao:{ chg:['출제 영역 7개에서 6개로 축소. "문제 해결과 최적화"(10%) 영역 폐지','폐지된 영역의 프롬프트 진단은 D1, 설정 품질 저하 진단은 D5로 이동','업무 흐름 설계(16→18%), 거버넌스(15→17%), 설정·지식 관리(12→15%) 비중 증가'],
-    prep:'Project 1개 이상을 지시문·지식 자료·스킬로 설정, 업무 데이터 소스 연결, 메모리 검토·수정·삭제 실습',
+  ao:{ chg:['출제 영역 7개에서 6개로 축소. 7월판 D7 "문제 해결과 최적화"(10%) 영역 폐지','새 D1에 "프롬프트 진단과 반복 수정", 새 D5에 "설정 품질 저하 진단" 항목이 들어감. 7월판 D7이 다루던 진단 내용과 겹치는 부분','D3 이름이 "제품·모델 선택"에서 "기능·모델·컨텍스트 선택"으로 바뀜. 고를 대상에 Skills·커넥터·코드 실행 분석, effort level, 메모리 관리(검토·수정·삭제, incognito 채팅) 추가','D6 이름에 "데이터 보호"가 들어감. 민감 정보 분류, 가림·익명화, 코드 실행 분석용 업로드 판단, 메모리·incognito 설정 같은 실무 항목 포함','D3·D5(12→15%), D4(16→18%), D6(15→17%), D1(14→15%) 비중 증가. D2만 21→20%로 감소'],
+    prep:['공식 자료 확인: AI Fluency 4가지 역량(Delegation·Description·Discernment·Diligence). 모든 영역의 바탕','claude.ai 도움말 확인: 프롬프트 작성, Projects, Artifacts, Skills, Research, 코드 실행 분석, 커넥터, 메모리·incognito 채팅, Anthropic 이용 정책(Usage Policy)','직접 해볼 것: 반복 업무용 Project 1개 이상을 지시문·지식 자료·스킬로 설정, 업무용 데이터 소스 연결, 메모리 검토·수정·삭제','연습할 판단: 프롬프트가 뻔하거나 빗나간 결과를 낸 원인 진단, 리서치 결과의 주장·인용을 쓰기 전에 확인, 작업에 맞는 기능 고르기(Projects·Skills·Research·코드 실행 분석), 업무 흐름에서 Claude가 실행할 단계와 사람이 맡을 단계 구분, 민감한 데이터셋을 조직 정책에 맞게 분석용으로 준비','가이드 7장 샘플 문제로 문항 형식 익히기'],
     doms:[
       ['D1','Task Definition and Prompting','작업 정의와 프롬프트',15,14,'Prompt Construction · Task Decomposition and Sequencing · Prompt Diagnosis and Iteration'],
       ['D2','Output Evaluation and Quality Control','결과 평가와 품질 관리',20,21,'Output Evaluation and Fitness for Purpose · Hallucination Detection and Verification · Review Depth and Escalation · Output Adaptation and Format Selection'],
       ['D3','Capability, Model, and Context Selection','기능·모델·컨텍스트 선택',15,12,'Capability Selection · Model and Effort Selection · Context and Memory Management'],
-      ['D4','Workflow Design and Integration','업무 흐름 설계와 연결',18,16,'End-to-End Deliverable Workflows · Delegation and Workflow Redesign · Repeatable Workflow Design · Capability Communication'],
+      ['D4','Workflow Design and Integration','업무 흐름 설계와 통합',18,16,'End-to-End Deliverable Workflows · Delegation and Workflow Redesign · Repeatable Workflow Design · Capability Communication'],
       ['D5','Configuration and Knowledge Management','설정과 지식 관리',15,12,'Project Configuration · Connector and Knowledge Management · Persistent-Instruction Design · Configuration Lifecycle and Degradation'],
       ['D6','Responsible Use, Data Protection, and Governance','책임 있는 사용·데이터 보호·거버넌스',17,15,'Use-Case Appropriateness · Data Protection in Practice · Policy, Ethics, and Diligence']
     ],
-    gone:[['7월판 D7','Troubleshooting and Optimization','문제 해결과 최적화',10,'D1·D5로 분산']] },
-  dv:{ chg:['애플리케이션과 연동 비중 대폭 축소 (33.1→20%)','평가·테스트·디버깅(2.6→10%), Claude Code(3.1→8%), 프롬프트·컨텍스트(11→15%) 비중 확대','문항 수 53개에서 70개(채점 60)로 증가, 시험 시간은 120분 그대로'],
-    prep:'Agent SDK나 직접 만든 실행 환경으로 도구를 쓰는 에이전트 1개 이상 구축. 커스텀 도구나 MCP 서버, 구조화된 출력, 프롬프트 캐싱, 기준 데이터 평가, 결정적 가드레일 포함',
+    gone:[['7월판 D7','Troubleshooting and Optimization','문제 해결과 최적화',10,'영역 없음. D1·D5의 진단 항목과 겹침']] },
+  dv:{ chg:['애플리케이션과 통합(33.1→20%), 모델 선택과 최적화(16.8→12%) 비중 축소','평가·테스트·디버깅(2.6→10%), Claude Code(3.1→8%), 프롬프트·컨텍스트(11→15%), 에이전트와 워크플로(14.7→17%) 비중 확대','문항 수 53개에서 70개(채점 60)로 증가, 시험 시간은 120분 그대로'],
+    prep:['공식 문서 확인: Claude Developer Platform(Messages API, Agent SDK, Managed Agents), Claude Code(Skills, 플러그인, Rules 파일, 훅, 하위 에이전트), MCP, 1P API와 클라우드 플랫폼 배포의 차이','직접 해볼 것: 도구를 쓰는 에이전트나 워크플로 1개 이상 구축·배포. Agent SDK나 직접 만든 실행 환경 사용. 커스텀 도구나 MCP 서버, 구조화된 출력, 프롬프트 캐싱, 정답 세트(golden set) 기준 평가 실행, 결정적 가드레일 포함','연습할 판단: 워크플로와 에이전트 구조 중 선택, Messages API 요청·응답 읽고 쓰기, 추적 기록과 오류 출력으로 통합·에이전트 실패 진단, LLM 평가자를 사람 라벨에 맞춰 보정, 프롬프트 캐시 지점 배치, 실패한 프롬프트 수정, 제공 문서에 근거한 답변, 도구·Skills·MCP 중 알맞은 방식 선택','가이드 7장 샘플 문제로 문항 형식 익히기'],
     doms:[
       ['D1','Agents and Workflows','에이전트와 워크플로',17,14.7,'Architecture and Runtime Selection · Agent SDK Construction and Hooks · Agent Pattern Diagnosis'],
-      ['D2','Applications and Integration','애플리케이션과 연동',20,33.1,'Messages API Mechanics · Application Boundary and Surface Behavior · Configuration and SDLC Integration · Integration Resilience'],
+      ['D2','Applications and Integration','애플리케이션과 통합',20,33.1,'Messages API Mechanics · Application Boundary and Surface Behavior · Configuration and SDLC Integration · Integration Resilience'],
       ['D3','Claude Code','Claude Code',8,3.1,'Claude Code Operation · Claude Code Customization and Extension'],
       ['D4','Eval, Testing, and Debugging','평가·테스트·디버깅',10,2.6,'Evaluation Design · Failure-Mode Diagnosis'],
       ['D5','Model Selection and Optimization','모델 선택과 최적화',12,16.8,'Generation Mechanics and Model Options · Model Tier Selection and Release Planning · Cost Diagnosis and Optimization'],
@@ -461,8 +465,8 @@ var GD = {
       ['D7','Security and Safety','보안과 안전',8,8.1,'Prompt Injection and Jailbreak Defense · Deterministic Guardrails and Least Privilege · API Key and Credential Handling'],
       ['D8','Tools and MCP','도구와 MCP',10,10.6,'Tool Design and Response Shaping · MCP Server Development and Integration · Capability Mechanism Selection']
     ], gone:[] },
-  arp:{ chg:['이해관계자 소통·수명주기 관리 비중 절반으로 축소 (14→7%)','통합(19→21%), 거버넌스·안전·리스크(14→16%) 비중 확대','문항 수 63개에서 70개(채점 60)로 변경. CCAR-F 범위를 전제 지식으로 봄 (가이드 6장)'],
-    prep:'운영 환경에 Claude 솔루션 1개 이상 설계·배포. 모델·배포 경로 선택, 검색이나 도구 연동, 평가 묶음, 관측, 겹겹의 가드레일 포함. 남이 만든 설계도·설정·로그 검토 연습',
+  arp:{ chg:['이해관계자 소통·수명주기 관리 비중 절반으로 축소 (14→7%)','통합(19→21%), 거버넌스·안전·리스크(14→16%) 비중 확대. 솔루션 설계(17→18%), 평가·테스트(16→17%), 개발 생산성(7→8%)은 1%p씩 증가','문항 수 63개에서 70개(채점 60)로 변경. CCAR-F 범위를 전제 지식으로 봄 (가이드 6장)'],
+    prep:['CCAR-F 시험 가이드 복습. CCAR-F 범위를 전제 지식으로 봄','공식 문서 확인: Claude Developer Platform, Agent Skills, Claude Code와 Agent SDK, Managed Agents, MCP. Anthropic API·Amazon Bedrock·Google Vertex AI·Microsoft Foundry 간 기능·데이터 처리 차이','직접 해볼 것: 운영 환경용 Claude 솔루션 1개 이상 설계·배포. 모델과 배포 경로 선택, 프롬프트·컨텍스트 엔지니어링, 검색이나 도구 연동, 평가 세트, 관측 가능성(observability), 여러 겹의 가드레일 포함','연습할 판단: 제안된 아키텍처와 오케스트레이터·하위 에이전트 분해를 제약 조건에 비춰 평가, 로그·추적으로 프롬프트·검색·도구 실패 진단, LLM 평가자를 사람 검토에 맞춰 보정, 통합용 안정성·보안 통제 선택, 되돌릴 수 있는지와 위험 크기에 따라 가드레일·사람 확인 지점 배치, 규정 의무를 아키텍처 통제로 연결, 요구사항·결정 기록·인수인계 자료의 빈틈 찾기','남이 만든 자료 검토 연습: 아키텍처 다이어그램, 설정 파일, 로그·추적, 평가 결과, 코드. 시험 문제가 이런 자료를 제시하고 근거로 판단하게 함','가이드 7장 샘플 문제로 문항 형식 익히기'],
     doms:[
       ['D1','Solution Design and Architecture','솔루션 설계와 아키텍처',18,17,'Task Delegation Between Claude and Humans · End-to-End Architecture Evaluation · Architectural Pattern Selection · Orchestrator and Subagent Decomposition · Value-Based Architectural Decisions · Deployment Surface and Agent Runtime Selection'],
       ['D2','Claude Models, Prompting, and Context Engineering','모델·프롬프트·컨텍스트 엔지니어링',13,13,'Model Tier Selection · System Prompt Diagnosis and Revision · Prompting Technique Selection · Context Composition and Token Economics · Cache Breakpoints and Reusable Packaging · Reasoning Effort and Context Lifecycle'],
@@ -477,22 +481,23 @@ var BAR_MAX = 35;
 function fmtP(n){ return (Math.round(n * 10) / 10).toString(); }
 function guideView(){
   var list = sorted();
-  var h = '<div class="sec"><div><h1>시험별 안내</h1><p class="lead">12/7부터 적용되는 새 시험 가이드(v1.1, 11/17 공개) 기준 출제 영역과 비중. 7월판과 비교.</p></div>';
+  var h = '<div class="sec"><div><h1>시험별 안내</h1><p class="lead">12/7부터 적용되는 새 시험 가이드(11/17 공개) 기준 출제 영역과 비중. 7월판과 비교.</p><p class="howto"><b>용어</b>7월판 = 7월 공개 후 12/6 응시까지 적용되는 기존 가이드. 11월에 등록·신분증 안내만 고쳐 다시 올라옴. 두 문서 모두 표지에 Version 1.1로 적혀 있어 버전 번호 대신 적용일로 구분.</p></div>';
   h += '<p class="howto"><b>읽는 법</b>막대 = 새 가이드 비중(0~35% 눈금). 세로선 = 7월판 비중. 오른쪽 아래 숫자 = 변화(%p). 영역 이름 아래 작은 글씨 = 가이드 원문의 세부 평가 항목.</p>';
-  h += '<div class="gleg"><span><i class="sw"></i>새 가이드 비중</span><span><i class="mk"></i>7월판 비중</span><span>▲ 증가 · ▼ 감소</span></div></div>';
+  h += '<div class="gleg"><span><i class="sw"></i>새 가이드 비중</span><span><i class="mk"></i>7월판 비중</span><span>▲ 증가 · ▼ 감소</span></div>';
+  h += '<div class="gcom"><b>세 시험 공통 (새 가이드 4·10·13장)</b><ul><li>70문항: 채점 60 + 비채점 10. 비채점 문항은 표시 없이 섞여 나오고 점수에 반영 안 됨<em>7월판: 시험별 53~63문항</em></li><li>문항 형식: 시나리오 기반 객관식. 문항마다 고를 답 개수 표시<em>7월판: 단일·복수 선택 문항</em></li><li>120분 · 합격 기준 환산 점수 720(100~1,000점 척도) · 응시료 변동 없음</li><li>재응시 대기: 첫 탈락 후 14일, 두 번째 30일, 세 번째 90일. 시험별로 12개월 안에 최대 4회. 매회 응시료 부과<em>7월판과 같음</em></li><li>자격 유효 기간 12개월. 기한 안에 감독 없는 무료 갱신 평가로 갱신<em>7월판과 같음</em></li><li>시험 당일 정부 발급 사진 신분증 필요. 등록 이름과 신분증 이름이 정확히 같아야 함</li></ul></div></div>';
   list.forEach(function(e){
     var g = GD[e.k];
-    h += '<div class="gx" style="--cc:var(' + e.cc + ')"><div class="gx-hd"><b>' + e.code + '</b><span>' + e.name + ' · 가이드 v1.1 · 12/7 적용</span><a href="' + e.gNew + '" target="_blank" rel="noopener">새 가이드 PDF ↗</a></div>';
+    h += '<div class="gx" style="--cc:var(' + e.cc + ')"><div class="gx-hd"><b>' + e.code + '</b><span>' + e.name + ' · 12/7 적용 가이드</span><a href="' + e.gNew + '" target="_blank" rel="noopener">새 가이드 PDF ↗</a></div>';
     h += '<div class="gx-facts">' + e.facts + ' · 합격 720/1,000<em>7월판: ' + e.factsOld + '</em></div>';
     h += '<h3>주요 변화</h3><ul class="chg">' + g.chg.map(function(c){ return '<li>' + esc(c) + '</li>'; }).join('') + '</ul>';
-    h += '<p class="prep"><b>가이드 권장 실습</b>' + esc(g.prep) + '</p>';
+    h += '<h3>가이드 권장 준비 (6장)</h3><ul class="chg">' + g.prep.map(function(c){ return '<li>' + esc(c) + '</li>'; }).join('') + '</ul>';
     h += '<div class="drs">' + g.doms.map(function(d){
       var diff = d[3] - d[4], dt = diff === 0 ? '변화 없음' : (diff > 0 ? '▲ ' + fmtP(diff) : '▼ ' + fmtP(-diff)) + '%p';
       return '<div class="dr"><div class="dn"><b><i>' + d[0] + '</i>' + esc(d[2]) + '</b><span>' + esc(d[1]) + '</span></div><div class="bar" aria-hidden="true"><i style="width:' + (100 * d[3] / BAR_MAX) + '%"></i><u style="left:' + (100 * d[4] / BAR_MAX) + '%"></u></div><div class="v">' + fmtP(d[3]) + '%<em class="' + (diff > 0 ? 'up' : (diff < 0 ? 'dn2' : '')) + '">' + dt + '</em><em>7월판 ' + fmtP(d[4]) + '%</em></div><div class="sk">' + esc(d[5]) + '</div></div>';
     }).join('') + g.gone.map(function(d){
       return '<div class="dr gone"><div class="dn"><b><i>' + d[0] + '</i>' + esc(d[2]) + '</b><span>' + esc(d[1]) + '</span></div><div class="bar" aria-hidden="true"><u style="left:' + (100 * d[3] / BAR_MAX) + '%"></u></div><div class="v">폐지<em class="dn2">▼ ' + d[3] + '%p</em><em>7월판 ' + d[3] + '%</em></div><div class="sk">새 가이드에서 ' + esc(d[4]) + '</div></div>';
     }).join('') + '</div>';
-    h += '<p class="howto"><a href="' + e.gOld + '" target="_blank" rel="noopener">7월판 가이드 PDF ↗</a> · 12/6까지 응시하는 경우 기준</p></div>';
+    h += '<p class="howto"><a href="' + e.gOld + '" target="_blank" rel="noopener">7월판 가이드 PDF ↗</a> · 12/6까지 응시하는 경우 기준 (11월 행정 개정본)</p></div>';
   });
   return h;
 }
@@ -515,11 +520,11 @@ function render(){
     var d = examDate(e.k), after = pd(d) >= pd(REVAMP_DAY);
     return '<div class="ex" style="--cc:var(' + e.cc + ')"><div class="ex-hd"><b>' + e.code + '</b><span class="dd">' + dday(d) + '</span></div><div class="nm">' + e.name + '</div>' +
       '<label>응시일<input type="date" data-exam="' + e.k + '" value="' + d + '" min="2026-10-15" max="2027-12-31"></label>' +
-      '<ul><li>' + md(d) + '(' + wd(d) + ') 응시 · ' + (after ? '새 가이드(12/7 적용판) 기준' : '7월판 가이드 기준') + '</li><li>탈락 시 ' + md(addD(d, 14)) + '부터 재응시 가능</li>' + teachLine(e.k, d) + '<li>' + (after ? e.facts + ' (12/7부터)' : e.factsOld + ' (12/6까지)') + '</li></ul>' +
-      '<a class="reg" href="' + e.reg + '" target="_blank" rel="noopener">시험 등록 페이지 ↗</a><span class="regn">Register를 누르면 Pearson으로 바로 연결돼 예약·결제</span></div>';
+      '<ul><li>' + md(d) + '(' + wd(d) + ') 응시 · ' + (after ? '새 가이드(12/7 적용판) 기준' : '7월판 가이드 기준') + '</li><li>첫 탈락 시 ' + md(addD(d, 14)) + '부터 재응시 가능 (두 번째 탈락 후 30일, 세 번째 후 90일 대기 · 12개월에 최대 4회)</li>' + teachLine(e.k, d) + '<li>' + (after ? e.facts + ' (12/7부터)' : e.factsOld + ' (12/6까지)') + '</li></ul>' +
+      '<a class="reg" href="' + e.reg + '" target="_blank" rel="noopener">시험 등록 페이지 ↗</a><span class="regn">Register → 시험과 시험 프로필 확인 → Continue to Pearson 순서로 넘어가 예약·결제. 프로필 이름은 신분증 이름과 똑같이 맞출 것</span></div>';
   }).join('') + '</div></div>';
 
-  h += '<div class="sec"><div><h2>시험별 학습 자료</h2><p class="howto"><b>읽는 법</b>위에서 아래로 보는 순서. 11/17 새 가이드 공개로 모든 강좌 수강 가능. 학습 경로와 Prep Course 항목을 누르면 전체 커리큘럼이 펼쳐짐. 펼친 목록에서 강좌를 누르면 완료 체크와 취소선 표시, 다시 누르면 취소. 같은 강좌는 다른 시험 목록에서도 함께 체크됨.</p>' + '<div class="legend2"><span class="chip now">일반 강좌</span>Claude 사용법 전반<span class="chip later">Prep Course</span>시험 범위를 직접 다루는 공식 준비 과정 모듈. CCAO-F 모듈에는 대응하는 새 가이드 영역(D1~D6) 표시</div></div>';
+  h += '<div class="sec"><div><h2>시험별 학습 자료</h2><p class="howto"><b>읽는 법</b>위에서 아래로 보는 순서. 11/17 새 가이드 공개로 모든 강좌 수강 가능. 학습 경로와 Prep Course 항목을 누르면 전체 커리큘럼이 펼쳐짐. 펼친 목록에서 강좌를 누르면 완료 체크와 취소선 표시, 다시 누르면 취소. 같은 강좌는 다른 시험 목록에서도 함께 체크됨.</p>' + '<div class="legend2"><span class="chip now">일반 강좌</span>Claude 사용법 전반<span class="chip later">Prep Course</span>시험 범위를 직접 다루는 공식 준비 과정 모듈. CCAO-F 모듈에는 내용이 가장 가까운 새 가이드 영역(D1~D6) 표시. 공식 대응표가 아닌 이름·학습 목표 비교 결과</div></div>';
   list.forEach(function(e){
     var d = examDate(e.k);
     h += '<div class="mat" style="--cc:var(' + e.cc + ')"><div class="mat-hd"><b>' + e.code + '</b><span>' + md(d) + ' 응시 · ' + dday(d) + '</span></div><ol>';
